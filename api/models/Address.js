@@ -7,6 +7,7 @@ var AddressSchema = Schema({
     numExt: String,
     colonia: String,
     codPostal: String,
+    userId: String
 });
 
 module.exports = mongoose.model("Address", AddressSchema);

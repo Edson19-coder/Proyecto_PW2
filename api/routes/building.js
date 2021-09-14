@@ -13,6 +13,5 @@ api.get('/getStorage-building', md_auth.ensureAuth, BuildingController.getStorag
 api.get('/getRam-building', md_auth.ensureAuth, BuildingController.getRam);
 api.get('/getCabinet-building', md_auth.ensureAuth, BuildingController.getCabinet);
 api.get('/getPowerSupply-building', md_auth.ensureAuth, BuildingController.getPowerSupply);
-api.post('/saveBuilding', md_auth.ensureAuth, BuildingController.saveBuilding);
 
 module.exports = api;
