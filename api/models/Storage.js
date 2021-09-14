@@ -5,14 +5,15 @@ var StorageSchema = Schema({
     name: String,
     description: String,
     image: String,
-    cost: String,
+    cost: Number,
     type: String,
     /* DiscoDuro solido */
     typ2: String,
     /* m2 o sata */
     size: String,
-    watts: String,
-    active: Boolean
+    watts: Number,
+    active: Boolean,
+    productId: String
 });
 
-module.exports = mongoose.model("Storage", GraphicCard);
+module.exports = mongoose.model("Storage", StorageSchema);

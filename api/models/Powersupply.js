@@ -5,12 +5,13 @@ var PowersupplySchema = Schema({
     name: String,
     description: String,
     image: String,
-    cost: String,
+    cost: Number,
     certification: String,
     color: String,
-    wattage: String,
-    watts: String,
-    active: Boolean
+    wattage: Number,
+    watts: Number,
+    active: Boolean,
+    productId: String
 });
 
 module.exports = mongoose.model("Powersupply", PowersupplySchema);

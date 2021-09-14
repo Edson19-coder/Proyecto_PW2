@@ -6,15 +6,18 @@ var ProcessorSchema = Schema({
     description: String,
     image: String,
     cost: String,
-    role: Boolean,
+    type: String,
     /* True: AMD, False: Intel */
     cores: String,
     speed: String,
     socket: String,
-    chipset: [String],
+    chipset: [{
+        type: String
+    }],
     /* Compatible list */
-    watts: String,
-    active: Boolean
+    watts: Number,
+    active: Boolean,
+    productId: String
 });
 
 module.exports = mongoose.model("Processor", ProcessorSchema);

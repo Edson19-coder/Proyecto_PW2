@@ -5,6 +5,8 @@ var app = express();
 
 //Cargar rutas
 var user_routes = require('./routes/user');
+var building_routes = require('./routes/building');
+var product_routes = require('./routes/product');
 
 //middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -21,6 +23,8 @@ app.use((req, res, next) => {
 
 //rutas 
 app.use('/api', user_routes);
+app.use('/api', building_routes);
+app.use('/api', product_routes);
 
 //exportar 
 module.exports = app;

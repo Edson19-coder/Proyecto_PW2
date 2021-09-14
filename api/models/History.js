@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var HistorySchema = Schema({
-    usuarioid: String,
-    motherboardid: String,
-    processorid: String,
-    graphiccard: String,
-    ramid: [String],
-    storageid: [String],
+    userId: String,
+    motherboardId: String,
+    processorId: String,
+    graphiccardId: String,
+    ramId: [String],
+    storageId: [String],
     date: String,
 });
 

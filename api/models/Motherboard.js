@@ -5,7 +5,7 @@ var MotherboardSchema = Schema({
     name: String,
     description: String,
     image: String,
-    cost: String,
+    cost: Number,
     socket: String,
     chipset: String,
     m2: Boolean,
@@ -13,8 +13,9 @@ var MotherboardSchema = Schema({
     ramMax: String,
     size: String,
     /* atx, microatx, miniatx */
-    watts: String,
-    active: Boolean
+    watts: Number,
+    active: Boolean,
+    productId: String
 });
 
 module.exports = mongoose.model("Motherboard", MotherboardSchema);

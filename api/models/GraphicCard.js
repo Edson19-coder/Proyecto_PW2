@@ -5,13 +5,13 @@ var GraphicCardSchema = Schema({
     name: String,
     description: String,
     image: String,
-    cost: String,
+    cost: Number,
     vel: String,
     type: String,
     /* Gddr6 etc */
-    size: String,
-    watts: String,
-    active: Boolean
+    watts: Number,
+    active: Boolean,
+    productId: String
 });
 
-module.exports = mongoose.model("GraphicCard", GraphicCard);
+module.exports = mongoose.model("GraphicCard", GraphicCardSchema);

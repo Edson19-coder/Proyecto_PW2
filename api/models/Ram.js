@@ -5,12 +5,13 @@ var RamSchema = Schema({
     name: String,
     description: String,
     image: String,
-    cost: String,
+    cost: Number,
     type: String,
     /* DDR4 */
     size: String,
-    watts: String,
-    active: Boolean
+    watts: Number,
+    active: Boolean,
+    productId: String
 });
 
 module.exports = mongoose.model("Ram", RamSchema);
