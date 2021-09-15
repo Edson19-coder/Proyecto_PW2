@@ -29,10 +29,13 @@ function createUser(req, res) {
         { nick: user.nick },
       ],
     }).exec((err, users) => {
-      if (err)
-        return res.status(500).send({ message: "Error en la petición." });
+      if (err) {
+        console.log(err);
+        return res.status(500).send({ message: "Error en la petición." }); 
+      }
 
       if (users && users.length >= 1) {
+        console.log("Esta cuenta ya existe.");
         return res.status(200).send({ message: "Esta cuenta ya existe." });
       } else {
         //Encriptamos la contraseña
@@ -40,23 +43,24 @@ function createUser(req, res) {
           user.password = hash;
 
           user.save((err, userStored) => {
-            if (err)
-              return res
-                .status(500)
-                .send({ message: "Error al guardar el usuario." });
+            if (err){
+              console.log(err);
+              return res.status(500).send({ message: "Error al guardar el usuario." });
+            }
 
             if (userStored) {
+              console.log(userStored);
               res.status(200).send({ message: userStored });
             } else {
-              res
-                .status(404)
-                .send({ message: "No se ha registrado el usuario." });
+              console.log("No se ha registrado el usuario.");
+              res.status(404).send({ message: "No se ha registrado el usuario." });
             }
           });
         });
       }
     });
   } else {
+    console.log("Envia todos los datos faltantes.");
     res.status(200).send({ message: "Envia todos los datos faltantes." });
   }
 }
@@ -67,7 +71,10 @@ function loginUser(req, res) {
   var password = params.password;
 
   User.findOne({ email: email }, (err, user) => {
-    if (err) return res.status(500).send({ message: "Error en la petición." });
+    if (err) {
+      console.log(err);
+      return res.status(500).send({ message: "Error en la petición." });
+    }
 
     if (user) {
       bcrypt.compare(password, user.password, (err, check) => {
@@ -82,15 +89,13 @@ function loginUser(req, res) {
             return res.status(200).send({ user });
           }
         } else {
-          return res
-            .status(404)
-            .send({ message: "Este usuario no se pudo identificar." });
+          console.log("Este usuario no se pudo identificar.");
+          return res.status(404).send({ message: "Este usuario no se pudo identificar." });
         }
       });
     } else {
-      return res
-        .status(404)
-        .send({ message: "Este usuario no se pudo identificar!." });
+      console.log("Este usuario no se pudo identificar!.");
+      return res.status(404).send({ message: "Este usuario no se pudo identificar!." });
     }
   });
 }
@@ -101,11 +106,8 @@ function updateUser(req, res) {
   delete update.password;
 
   if (userId != req.user.sub) {
-    return res
-      .status(500)
-      .send({
-        message: "No tienes permisos para editar los datos de este perfil.",
-      });
+    console.log("No tienes permisos para editar los datos de este perfil.");
+    return res.status(500).send({message: "No tienes permisos para editar los datos de este perfil.",});
   }
 
   User.find({
@@ -122,6 +124,7 @@ function updateUser(req, res) {
     });
 
     if (user_isset) {
+      console.log("Los datos ya estan en uso");
       return res.status(404).send({ message: "Los datos ya estan en uso" });
     }
 
@@ -130,16 +133,17 @@ function updateUser(req, res) {
       update,
       { new: true, useFindAndModify: false },
       (err, userUpdate) => {
-        if (err)
-          return res
-            .status(500)
-            .send({ message: "Error en la petición updateUser()" });
+        if (err) {
+          console.log(err);
+          return res.status(500).send({ message: "Error en la petición updateUser()" });
+        }
 
-        if (!userUpdate)
-          return res
-            .status(404)
-            .send({ message: "No se ha podido actualizar el usuario." });
+        if (!userUpdate) {
+          console.log("No se ha podido actualizar el usuario.");
+          return res.status(404).send({ message: "No se ha podido actualizar el usuario." });
+        }
 
+        console.log(userUpdate);
         return res.status(200).send({ user: userUpdate });
       }
     );
@@ -150,10 +154,14 @@ function getUserById(req, res) {
   var userId = req.params.id;
 
   User.findById(userId, (err, user) => {
-    if (err) return res.status(500).send({ message: "Error en la peticion." });
-
-    if (!user) return res.status(404).send({ message: "El usuario no existe" });
-
+    if (err) {
+      console.log(err);
+      return res.status(500).send({ message: "Error en la peticion." });
+    }
+    if (!user) {
+      console.log("El usuario no existe");
+      return res.status(404).send({ message: "El usuario no existe" });
+    }
     return res.status(200).send({ user: user });
   });
 }
@@ -168,15 +176,15 @@ function getAllUer(req, res) {
   User.find()
     .sort("_id")
     .paginate(page, itemsPerPage, (err, users, total) => {
-      if (err)
-        return res
-          .status(500)
-          .send({ message: "Error en la peticio getUsers()" });
+      if (err) {
+        console.log(err);
+        return res.status(500).send({ message: "Error en la peticio getUsers()" });
+      }
 
-      if (!users)
-        return res
-          .status(404)
-          .send({ message: "No hay usuarios disponibles." });
+      if (!users) {
+        console.log("No hay usuarios disponibles.");
+        return res.status(404).send({ message: "No hay usuarios disponibles." });
+      }
 
       return res.status(200).send({
         users,
