@@ -8,7 +8,7 @@ export default function ABCProduct() {
             <NavBar />
             <div style={divStyle} className="container-fluid">
                 <br/>
-                <div class="text-center">
+                <div className="text-center">
                     <h4>
                         Subir Imagen del Producto
                     </h4>
