@@ -1,8 +1,7 @@
 import React from 'react'
-import '../css/NavBar.css';
 import 'bootstrap/dist/css/bootstrap.css'
-import {Nav, Navbar} from 'react-bootstrap'
-const divStyle = {   backgroundColor: '#588eb4'};
+import { Navbar} from 'react-bootstrap'
+const divStyle = {   backgroundColor: '#8b8e8f'};
 const navStyle = {   backgroundColor: '#588eb4'};
 const navStyle2 = {   backgroundColor: '#8b8e8f00'};
 const btnStyle = {
@@ -13,7 +12,7 @@ const btnStyle = {
 export default function NavBar() {
     return (
         <div className="NavBar" style={divStyle} sticky="top">
-            <Navbar style={navStyle}>
+            <Navbar style={navStyle} >
                 <div className="container-fluid">
                     <a className="navbar-brand col-4">
                     <img src="https://art.ngfiles.com/images/400000/400612_theiyoume_gorilla-head.png?f1453329574" alt=""
@@ -47,7 +46,7 @@ export default function NavBar() {
                     </div>
                 </div>
             </Navbar>
-            <Navbar style={navStyle2}>
+            <Navbar style={navStyle2} className="navbar-expand-lg container-fluid" >
                 <div className="btn-group me-12 col-12" role="group" aria-label="Second group">
                     <button type="button" className="btn btn-primary"
                     style={btnStyle}>Home</button>
