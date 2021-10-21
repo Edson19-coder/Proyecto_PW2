@@ -6,11 +6,13 @@ import Carrito from './components/Carrito';
 import Busqueda from './components/Busqueda';
 import Producto from './components/Producto';
 import ABCProduct from './components/ABCProduct';
+import Perfil from './components/Perfil';
+import Building from './components/Building';
 
 function App() {
   return (
     
-    <ABCProduct />
+    <Building />
     
   );
 }
