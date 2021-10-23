@@ -16,7 +16,7 @@ export default function HomeCards() {
                 Some quick example text to build on the card title and make up the
                 bulk of the card's content.
                 </Card.Text>
-                <Button variant="primary">Mas Detalles</Button>
+                <Button variant="primary"><a href="/Producto">Build PC</a></Button>
             </Card.Body>
             </Card>       
         </div>

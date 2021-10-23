@@ -41,7 +41,7 @@ export default function Login() {
                     </div>
                     <br/>
                     <div className="col-12">
-                    <button className="btn btn-primary col-6">Registrar</button>
+                    <button className="btn btn-primary col-6"><a href="/Register">Registrar</a></button>
                     </div>
                     <br/>
                 </div>
