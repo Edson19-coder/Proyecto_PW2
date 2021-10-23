@@ -23,6 +23,7 @@ function App() {
         <Route exact path="/Producto" component={Producto} />
         <Route exact path="/ABCProduct" component={ABCProduct} />
         <Route exact path="/Building" component={Building} />
+        <Route exact path="/Perfil" component={Perfil} />
         
       </Switch>
     </Router>
