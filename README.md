@@ -32,4 +32,7 @@ Dentro de esta carpeta estara todo lo relacionado con el Back-end (Controladores
 - Routes: Dentro de carpeta seran almacenadas cada una de las rutas (end points) creadas para el uso de los metodos creados en los controladores.
 - Services: Actualmente esta carpeta solo esta siendo usada para alamacenar la funcion de la creación de los tokens para la autentificación del usuario.
 ### Client
-**SIN DESARROLLAR**
+Dentro de esta carpeta estara todo lo relacionado con el Front-end (Public, src e informacion de la app en react), asi como se mostrara en **Github**, la carpeta relevante es la de src, esa es la que se describira a continuacion, lo demas es parte de la app de react que dejamos para que la persona con acceso a este repo pueda ejecutar la app sin problema.
+*Cabe mencionar que al mismo nivel de Public y src se encuentra el archivo de package.json, este contiene la informacion de las dependencias agregadas a la app para su funcionamiento*
+
+-src : Dentro de esta carpeta se encuentra otra llamada components, la cual contiene todos los componentes que seran utilizados en las ventanas para nuestra pagina web (NavBar, Home, Login, Register, Search, Cart, etc). Asi mismo, tambien se realizo modificaciones en el archivo de App.js, agregando las rutas para el redireccionamiento para la navegacion entre ellas.
