@@ -1,33 +1,31 @@
 import React from 'react'
+import { Navbar, Container, FormControl, Button } from "react-bootstrap";
+import { MdSearch } from 'react-icons/md';
 
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import { Container } from 'react-bootstrap'
-
-export default function NavBar() {
+const NavBar = ( props ) => {
     return (
         <div>
-            <Navbar bg="dark" expand="lg" fixed="top" variant="dark">
+            <Navbar className="LogNavbar" variant='dark' expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#link">Link</Nav.Link>
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                    </Navbar.Collapse>
+                    <Navbar.Brand href="/">E-commerce</Navbar.Brand>
+                    <FormControl id="BusquedaNavbar" placeholder="Buscar..." aria-label="Search" aria-describedby="inputGroup-sizing-sm"/>
+                    <a href="/Search"><MdSearch className="search-icon" /></a>
+                    <Button id="btnEntrar" variant="light" href="/login">LogIn</Button>
+                    <Button id="btnRegistrar" variant="outline-light" href="/register">SignIn</Button>
+                </Container>                
+            </Navbar>
+            <Navbar className="navbar-expand-lg container-fluid " variant='dark' expand="lg">
+                <Container>
+                    <div className="btn-group me-12 col-12">
+                        <Button className="NavbarBtn" href="">Laptops</Button>
+                        <Button className="NavbarBtn" href="">Componentes</Button>
+                        <Button className="NavbarBtn" href="">Building</Button>
+                        <Button className="NavbarBtn" href="">Crear Producto</Button>
+                    </div>
                 </Container>
                 
             </Navbar>
         </div>
     )
 }
+export default NavBar;

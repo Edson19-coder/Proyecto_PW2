@@ -1,32 +1,31 @@
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+//Pages
+import index from './pages/index';
+import login from './pages/login';
+import register from './pages/register';
 
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+//Components
+import NavBar from "../src/components/NavBar";
+import Footer from "../src/components/Footer";
+//CSS
+import '../src/css/index.css';
+import '../src/css/LoginRegister.css';
 
-import Home from './components/Home'; //
-import Login from './components/Login'; //
-import Register from './components/Register'; //
-import Carrito from './components/Carrito'; //
-import Busqueda from './components/Busqueda'; //
-import Producto from './components/Producto'; //
-import ABCProduct from './components/ABCProduct'; //
-import Building from './components/Building'; //
 
 function App() {
   return (
     
     <Router>
+      <NavBar />
+      <hr className="hr"></hr>      
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/Login" component={Login} />
-        <Route exact path="/Register" component={Register} />
-        <Route exact path="/Carrito" component={Carrito} />
-        <Route exact path="/Busqueda" component={Busqueda} />
-        <Route exact path="/Producto" component={Producto} />
-        <Route exact path="/ABCProduct" component={ABCProduct} />
-        <Route exact path="/Building" component={Building} />
+        <Route exact path="/" component={index} />
+        <Route exact path="/login" component={login} />
+        <Route exact path="/register" component={register} />
         
       </Switch>
+      <Footer />
     </Router>
     
   );
