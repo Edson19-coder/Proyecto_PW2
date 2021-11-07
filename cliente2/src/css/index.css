@@ -20,6 +20,9 @@ body {
 #carouselindex{
     margin-bottom: 1rem;
 }
+#title, label{
+  color: white;
+}
 
 /* CLASSES */
 .search-icon {
@@ -49,7 +52,7 @@ body {
   color: white;
   font-size: 12px;
   text-align: center;
-  position: fixed;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -57,4 +60,20 @@ body {
 }
 .carousel-img{
   height: 400px;
+}
+.cardItem{
+  width: 18rem;
+  border: none;
+  margin: 1rem;
+  border-radius: 1rem;
+  background-color: rgba(188, 120, 243, 0.253);
+  color: white;
+}
+.cardImg{
+  max-width: 250px;
+  max-height: 140px;  
+}
+.cardBtn{
+  border-radius: 1rem;
+  color: white;
 }

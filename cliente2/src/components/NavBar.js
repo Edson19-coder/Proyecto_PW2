@@ -9,7 +9,7 @@ const NavBar = ( props ) => {
                 <Container>
                     <Navbar.Brand href="/">E-commerce</Navbar.Brand>
                     <FormControl id="BusquedaNavbar" placeholder="Buscar..." aria-label="Search" aria-describedby="inputGroup-sizing-sm"/>
-                    <a href="/Search"><MdSearch className="search-icon" /></a>
+                    <a href="/search"><MdSearch className="search-icon" /></a>
                     <Button id="btnEntrar" variant="light" href="/login">LogIn</Button>
                     <Button id="btnRegistrar" variant="outline-light" href="/register">SignIn</Button>
                 </Container>                

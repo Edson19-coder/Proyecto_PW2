@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import index from './pages/index';
 import login from './pages/login';
 import register from './pages/register';
+import search from './pages/search';
 
 //Components
 import NavBar from "../src/components/NavBar";
 import Footer from "../src/components/Footer";
 //CSS
 import '../src/css/index.css';
+import '../src/css/search.css';
 import '../src/css/LoginRegister.css';
 
 
@@ -23,6 +25,7 @@ function App() {
         <Route exact path="/" component={index} />
         <Route exact path="/login" component={login} />
         <Route exact path="/register" component={register} />
+        <Route exact path="/search" component={search} />
         
       </Switch>
       <Footer />

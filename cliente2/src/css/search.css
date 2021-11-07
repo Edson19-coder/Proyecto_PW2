@@ -1,0 +1,21 @@
+.aPag{
+    background-color: rgba(243, 120, 120, 0);
+    color: white;
+}
+.aPag:hover{
+    background-color: white;
+    color: black;
+}
+.cardSearch{
+   max-width: 1440px; 
+   border: none;
+   margin: 1rem;
+   border-radius: 1rem;
+   background-color: rgba(188, 120, 243, 0.253);
+   color: white;
+}
+.cardSearchImg{
+   width: 420PX; 
+   height: 280PX;
+   
+}
