@@ -3,7 +3,8 @@ import Card from 'react-bootstrap/Card'
 import { Button } from "react-bootstrap";
 
 const CardItem = (props) => {
-    const [isClick, setClick] = useState(false);
+    let hrefLink = '/productItem/'+props.id;
+    console.log(hrefLink)
     return (
         <div>
             <Card className="col-sm-4 cardItem">
@@ -14,7 +15,7 @@ const CardItem = (props) => {
                     <Card.Img className="cardImg" variant="top" src={props.img} />
                     <hr/>
                     <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text>
-                    <center><Button className="cardBtn">Detalles</Button></center>
+                    <center><Button className="cardBtn" href={hrefLink}>Detalles</Button></center>
                 </Card.Body>
             </Card> 
        </div>

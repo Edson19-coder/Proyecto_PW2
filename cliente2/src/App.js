@@ -5,6 +5,8 @@ import index from './pages/index';
 import login from './pages/login';
 import register from './pages/register';
 import search from './pages/search';
+import profile from './pages/profile';
+import productItem from './pages/productItem';
 
 //Components
 import NavBar from "../src/components/NavBar";
@@ -13,6 +15,8 @@ import Footer from "../src/components/Footer";
 import '../src/css/index.css';
 import '../src/css/search.css';
 import '../src/css/LoginRegister.css';
+import '../src/css/profile.css';
+import '../src/css/productItem.css';
 
 
 function App() {
@@ -26,6 +30,8 @@ function App() {
         <Route exact path="/login" component={login} />
         <Route exact path="/register" component={register} />
         <Route exact path="/search" component={search} />
+        <Route exact path="/profile" component={profile} />
+        <Route exact path="/productItem/:id" component={productItem} />
         
       </Switch>
       <Footer />

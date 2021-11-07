@@ -16,6 +16,9 @@
 }
 .cardSearchImg{
    width: 420PX; 
-   height: 280PX;
-   
+   height: 280PX;   
+}
+.cardBtn{
+   border-radius: 1rem;
+   color: white;
 }

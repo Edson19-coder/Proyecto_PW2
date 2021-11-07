@@ -1,5 +1,6 @@
 body {
-    background: linear-gradient(to right, #020015, #0D8060 );
+  background: linear-gradient(to right, #020015, #0D8060 );
+  margin-bottom: 100px;
 }
 /* ID'S */
 #BusquedaNavbar {
@@ -52,7 +53,7 @@ body {
   color: white;
   font-size: 12px;
   text-align: center;
-  position: relative;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
