@@ -18,6 +18,7 @@ import '../src/css/search.css';
 import '../src/css/LoginRegister.css';
 import '../src/css/profile.css';
 import '../src/css/productItem.css';
+import '../src/css/cart.css';
 
 
 function App() {

@@ -21,7 +21,8 @@ const productItem = (props) => {
                     </div>
                     <div className="col-4">
                         <br/>
-                        <Card.Title><span>GTX 1080</span><span style={{float: 'right'}}>3000$</span></Card.Title>
+                        <Card.Title><span style={{float: 'left'}}>GTX 1080</span><span style={{float: 'right'}}>3000$</span></Card.Title>
+                        <br/>
                         <Card.Text>Gaming enthusiasts are always looking for more performance to
                             get the ultimate experience. Using multiple graphics cards in
                             SLI or Crossfire is a great way to find out just how good it

@@ -21,7 +21,7 @@ const CardCart = (props) => {
                         gets. MSI GAMING graphics cards fully support multi GPU
                         technologies.</Card.Text>
                         <Card.Body>
-                          <center><Button className="cardBtn">Eliminar</Button></center>
+                          <center><Button className="cardCartBtn col-6">Eliminar</Button></center>
                         </Card.Body>
                     </Card.Body>
                     </div>
