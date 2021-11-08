@@ -7,6 +7,7 @@ import register from './pages/register';
 import search from './pages/search';
 import profile from './pages/profile';
 import productItem from './pages/productItem';
+import cart from './pages/cart';
 
 //Components
 import NavBar from "../src/components/NavBar";
@@ -31,6 +32,7 @@ function App() {
         <Route exact path="/register" component={register} />
         <Route exact path="/search" component={search} />
         <Route exact path="/profile" component={profile} />
+        <Route exact path="/cart" component={cart} />
         <Route exact path="/productItem/:id" component={productItem} />
         
       </Switch>
