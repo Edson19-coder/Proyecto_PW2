@@ -12,13 +12,14 @@ function createUser(req, res) {
     params.surname &&
     params.nick &&
     params.email &&
-    params.password
+    params.password &&
+    params.role
   ) {
     user.name = params.name;
     user.surname = params.surname;
     user.nick = params.nick;
     user.email = params.email;
-    user.role = "CLIENT";
+    user.role = params.role;
     user.image = null;
 
     //Validamos que los datos email y nick no esten ya registrados.
@@ -36,7 +37,7 @@ function createUser(req, res) {
 
       if (users && users.length >= 1) {
         console.log("Esta cuenta ya existe.");
-        return res.status(200).send({ message: "Esta cuenta ya existe." });
+        return res.status(201).send({ message: "Esta cuenta ya existe." });
       } else {
         //Encriptamos la contraseña
         bcrypt.hash(params.password, null, null, (err, hash) => {
@@ -53,7 +54,7 @@ function createUser(req, res) {
               res.status(200).send({ message: userStored });
             } else {
               console.log("No se ha registrado el usuario.");
-              res.status(404).send({ message: "No se ha registrado el usuario." });
+              res.status(204).send({ message: "No se ha registrado el usuario." });
             }
           });
         });
@@ -61,7 +62,7 @@ function createUser(req, res) {
     });
   } else {
     console.log("Envia todos los datos faltantes.");
-    res.status(200).send({ message: "Envia todos los datos faltantes." });
+    res.status(201).send({ message: "Envia todos los datos faltantes." });
   }
 }
 
@@ -70,34 +71,39 @@ function loginUser(req, res) {
   var email = params.email;
   var password = params.password;
 
-  User.findOne({ email: email }, (err, user) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send({ message: "Error en la petición." });
-    }
-
-    if (user) {
-      bcrypt.compare(password, user.password, (err, check) => {
-        if (check) {
-          //Para poder ver el token el los params agregamos una variable llamada gettoken = true
-          if (params.gettoken) {
-            //Generar y devolver un token
-            return res.status(200).send({ token: jwt.createToken(user) });
+  if(email && password) {
+    User.findOne({ email: email }, (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send({ message: "Error en la petición." });
+      }
+  
+      if (user) {
+        bcrypt.compare(password, user.password, (err, check) => {
+          if (check) {
+            //Para poder ver el token el los params agregamos una variable llamada gettoken = true
+            if (params.gettoken) {
+              //Generar y devolver un token
+              return res.status(200).send({ token: jwt.createToken(user) });
+            } else {
+              //devolver datos de usuario
+              user.password = undefined;
+              return res.status(200).send({ user });
+            }
           } else {
-            //devolver datos de usuario
-            user.password = undefined;
-            return res.status(200).send({ user });
+            console.log("Este usuario no se pudo identificar.");
+            return res.status(204).send({ message: "Este usuario no se pudo identificar." });
           }
-        } else {
-          console.log("Este usuario no se pudo identificar.");
-          return res.status(404).send({ message: "Este usuario no se pudo identificar." });
-        }
-      });
-    } else {
-      console.log("Este usuario no se pudo identificar!.");
-      return res.status(404).send({ message: "Este usuario no se pudo identificar!." });
-    }
-  });
+        });
+      } else {
+        console.log("Este usuario no se pudo identificar!.");
+        return res.status(204).send({ message: "Este usuario no se pudo identificar!." });
+      }
+    });
+  } else {
+    console.log("Envia todos los datos faltantes.");
+    res.status(201).send({ message: "Envia todos los datos faltantes." });
+  }
 }
 
 function updateUser(req, res) {
