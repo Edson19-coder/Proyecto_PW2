@@ -8,6 +8,12 @@ import { Image } from "react-bootstrap";
 const CategoriaButton = async () => {
     var valorSelect = document.getElementById("selectedOpt").value;
     var botoncito;
+    var contador;
+    for (contador = 1;contador <= 7; contador++) {
+        console.log(contador);
+        botoncito = document. getElementById("botoncito"+contador);
+        botoncito.style.display = "none";    
+    }
 
     if(valorSelect === 0){
         alert("Selecciona una categoria");
