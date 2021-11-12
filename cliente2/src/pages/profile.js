@@ -26,16 +26,16 @@ const profile = (props) => {
                                 <div className="row justify-content-center">
                                     <div className="col-10">
                                     <InputGroup className="mb-3">
-                                        <input type="text" className="form-control" placeholder="Juan"/>
+                                        <input type="text" className="form-control"/>
                                     </InputGroup>
                                     </div>
                                 </div>
-                                <br/>
+
                                 <h2 className="hProfile">Email</h2>
                                 <div className="row justify-content-center">
                                     <div className="col-10">
                                     <InputGroup>
-                                        <input type="text" className="form-control" placeholder="Juan"/>
+                                        <input type="email" className="form-control" />
                                     </InputGroup>
                                     </div>
                                 </div>
@@ -44,7 +44,25 @@ const profile = (props) => {
                                 <div className="row justify-content-center">
                                     <div className="col-10">
                                     <InputGroup>
-                                        <input type="text" className="form-control" placeholder="Juan"/>
+                                        <input type="text" className="form-control" />
+                                    </InputGroup>
+                                    </div>
+                                </div>
+                                <br/>
+                                <h2 className="hProfile">Nombre</h2>
+                                <div className="row justify-content-center">
+                                    <div className="col-10">
+                                    <InputGroup>
+                                        <input type="text" className="form-control" />
+                                    </InputGroup>
+                                    </div>
+                                </div>
+                                <br/>
+                                <h2 className="hProfile">Apellidos</h2>
+                                <div className="row justify-content-center">
+                                    <div className="col-10">
+                                    <InputGroup>
+                                        <input type="text" className="form-control" />
                                     </InputGroup>
                                     </div>
                                 </div>
@@ -59,28 +77,13 @@ const profile = (props) => {
                         </span>
                     </div>
                     <br/>
-                    <center><h2 className="hProfile">Direccion</h2></center>
                     <br/>
                     <div className="row justify-content-center">
+                        
                         <span className="col-4">
                             <br/>
-                            <div className="text-center">
-                                <h5 className="hProfile">Lista de direcciones</h5>
-                                <div className="row justify-content-center">
-                                    <div className="col-10">
-                                    <InputGroup className="mb-3">
-                                    <select className="form-select form-select-sm" aria-label=".form-select-sm example">
-                                        <option selected>Selecciona</option>
-                                        <option value="1">Administrador</option>
-                                        <option value="2">Cliente</option>
-                                    </select>
-                                    </InputGroup>
-                                    </div>
-                                </div>
-                            </div>
-                        </span>
-                        <span className="col-4">
-                            <br/>
+                            <center><h2 className="hProfile">Direccion</h2></center>
+
                             <div className="text-center">
                                 <h5 className="hProfile">Calle</h5>
                                 <div className="row justify-content-center">
@@ -120,12 +123,6 @@ const profile = (props) => {
                                 <div className="row justify-content-center">
                                     <div className="col-4">
                                         <Button id="editBtn" className="col-12"> Editar </Button>
-                                    </div>
-                                    <div className="col-4">
-                                        <Button id="editBtn" className="col-12"> Agregar </Button>
-                                    </div>
-                                    <div className="col-4">
-                                        <Button id="editBtn" className="col-12"> Eliminar </Button>
                                     </div>
                                 </div>
                                 <br/>
