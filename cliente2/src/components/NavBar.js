@@ -20,7 +20,7 @@ const NavBar = ( props ) => {
                         <Button className="NavbarBtn" href="">Laptops</Button>
                         <Button className="NavbarBtn" href="">Componentes</Button>
                         <Button className="NavbarBtn" href="">Building</Button>
-                        <Button className="NavbarBtn" href="">Crear Producto</Button>
+                        <Button className="NavbarBtn" href="/createProduct">Crear Producto</Button>
                         <Button className="NavbarBtn" href="/profile">Perfil</Button>
                     </div>
                 </Container>

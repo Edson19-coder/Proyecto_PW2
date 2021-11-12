@@ -8,6 +8,7 @@ import search from './pages/search';
 import profile from './pages/profile';
 import productItem from './pages/productItem';
 import cart from './pages/cart';
+import CreateProduct from './pages/createProduct';
 
 //Components
 import NavBar from "../src/components/NavBar";
@@ -19,6 +20,7 @@ import '../src/css/LoginRegister.css';
 import '../src/css/profile.css';
 import '../src/css/productItem.css';
 import '../src/css/cart.css';
+import '../src/css/createProduct.css';
 
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
         <Route exact path="/search" component={search} />
         <Route exact path="/profile" component={profile} />
         <Route exact path="/cart" component={cart} />
+        <Route exact path="/CreateProduct" component={CreateProduct} />
         <Route exact path="/productItem/:id" component={productItem} />
         
       </Switch>
