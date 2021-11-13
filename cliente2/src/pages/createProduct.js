@@ -6,21 +6,21 @@ import { Modal } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 const CategoriaButton = async () => {
-    var valorSelect = document.getElementById("selectedOpt").value;
-    var botoncito;
-    var contador;
+  var valorSelect = document.getElementById("selectedOpt").value;
+  var botoncito;
+  var contador;
+  if(valorSelect == 0){
+    alert("Selecciona una categoria");
+  }else{
     for (contador = 1;contador <= 7; contador++) {
-        console.log(contador);
-        botoncito = document. getElementById("botoncito"+contador);
-        botoncito.style.display = "none";    
+      console.log(contador);
+      botoncito = document. getElementById("botoncito"+contador);
+      botoncito.style.display = "none";    
     }
 
-    if(valorSelect === 0){
-        alert("Selecciona una categoria");
-    }else{
-        botoncito = document. getElementById("botoncito"+valorSelect);
-        botoncito.style.display = "block";    
-    }
+    botoncito = document. getElementById("botoncito"+valorSelect);
+    botoncito.style.display = "block";    
+  }
     
 }
 
@@ -140,60 +140,103 @@ const CreateProduct = (props) => {
     )
 }
 
+//Cabinet
 function MyVerticallyCenteredModal(props) {
-    return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Centered Modal</h4>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Gabinete
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+            <Form.Group className="mb-3" controlId="formSizeCabinet">
+              <Form.Label className="hForm">Tamaño</Form.Label>
+              <select id="selectedOpt" className="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option value="0" defaultValue>Selecciona</option>
+                <option value="1">atx</option>
+                <option value="2">microatx</option>
+                <option value="3">miniatx</option>
+              </select>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formSlots3_5">
+              <Form.Label className="hForm">slots3_5</Form.Label>
+              <Form.Control type="number" placeholder="Cantidad" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formSlots2_5">
+              <Form.Label className="hForm">slots2_5</Form.Label>
+              <Form.Control type="number" placeholder="Cantidad" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formWatts">
+              <Form.Label className="hForm">Watss Consume</Form.Label>
+              <Form.Control type="number" placeholder="Cantidad de Watss" />
+            </Form.Group>
+            <center><Button variant="primary" type="submit">
+              Submit
+            </Button></center>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+//MotherBoard
 function MyVerticallyCenteredModal2(props) {
-    return (
-      <Modal
-        {...props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Centered Modal</h4>
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Modal heading
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+            <Form.Group className="mb-3" controlId="formSizeCabinet">
+              <Form.Label className="hForm">Tamaño</Form.Label>
+              <select id="selectedOpt" className="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option value="0" defaultValue>Selecciona</option>
+                <option value="1">atx</option>
+                <option value="2">microatx</option>
+                <option value="3">miniatx</option>
+              </select>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formSlots3_5">
+              <Form.Label className="hForm">slots3_5</Form.Label>
+              <Form.Control type="number" placeholder="Cantidad" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formSlots2_5">
+              <Form.Label className="hForm">slots2_5</Form.Label>
+              <Form.Control type="number" placeholder="Cantidad" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formWatts">
+              <Form.Label className="hForm">Watss Consume</Form.Label>
+              <Form.Control type="number" placeholder="Cantidad de Watss" />
+            </Form.Group>
+            <center><Button variant="primary" type="submit">
+              Submit
+            </Button></center>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+//PowerSupply
 function MyVerticallyCenteredModal3(props) {
     return (
       <Modal
@@ -221,6 +264,7 @@ function MyVerticallyCenteredModal3(props) {
       </Modal>
     );
   }
+//RAM
 function MyVerticallyCenteredModal4(props) {
     return (
       <Modal
@@ -248,6 +292,7 @@ function MyVerticallyCenteredModal4(props) {
       </Modal>
     );
   }
+//Storage
 function MyVerticallyCenteredModal5(props) {
     return (
       <Modal
@@ -275,6 +320,7 @@ function MyVerticallyCenteredModal5(props) {
       </Modal>
     );
   }
+//Processor
 function MyVerticallyCenteredModal6(props) {
     return (
       <Modal
@@ -302,6 +348,7 @@ function MyVerticallyCenteredModal6(props) {
       </Modal>
     );
   }
+//Graphics Card
 function MyVerticallyCenteredModal7(props) {
     return (
       <Modal
@@ -329,6 +376,5 @@ function MyVerticallyCenteredModal7(props) {
       </Modal>
     );
   }
-
-
+  
 export default CreateProduct;
