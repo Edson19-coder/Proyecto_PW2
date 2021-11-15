@@ -1,6 +1,7 @@
 .hCreateProd{
     color: white;
 }
+
 #ContCreateProd{
     background-color: rgba(188, 120, 243, 0.253);
     border: none;
@@ -8,4 +9,8 @@
     padding-bottom: 3rem;
     padding-right: 3rem;
     color: white;
+}
+
+.form-check-label{
+    color: black;
 }
