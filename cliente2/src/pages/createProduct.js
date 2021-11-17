@@ -6,7 +6,7 @@ import { Modal } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { Row, Col, FloatingLabel, InputGroup } from "react-bootstrap";
-import { createProduct } from "../api/ProductAPI";
+import { createProduct, uploadImage } from "../api/ProductAPI";
 import { createNotification } from "../services/notifications";
 
 const CategoriaButton = async () => {
@@ -75,8 +75,6 @@ var spSize = null;
 var spWatts = null;
 
 const addProduct = async () => {
-
-  var formData = new FormData();
   
   var photo = document.getElementById("formFileSm").files[0];
   var productName = document.getElementById("productName").value;
@@ -93,8 +91,13 @@ const addProduct = async () => {
 
     var response = null;
 
+    var formData = new FormData();
+    const imagefile = document.getElementById("formFileSm");
+    formData.append("image", imagefile.files[0]);
+    formData.append("category", productCategorie);
+
     var productData = {
-      image: "prueba",
+      image: photo,
       name: productName, 
       cost: productCost,
       description: productDescription,
@@ -115,7 +118,6 @@ const addProduct = async () => {
         (cabinetSlot25 == "" || cabinetSlot25 == null) || (cabinetSlot35 == "" || cabinetSlot35 == null)) {
           createNotification(204, "Llena la información faltante de la categoria.", false, "");
         } else {
-
           productData.size = cabinetSize;
           productData.color = cabinetColor;
           productData.slots3_5 = cabinetSlot35;
@@ -123,7 +125,6 @@ const addProduct = async () => {
           productData.watts = cabinetWatts;
 
           response = await createProduct(productData, loggedUser.token);
-          
         }
         break;
         
@@ -147,7 +148,6 @@ const addProduct = async () => {
         (mbVelRam == "" || mbVelRam == null) || (mbRamMax == "" || mbRamMax == null) || (mbWatts == "" || mbWatts == null)) {
           createNotification(204, "Llena la información faltante de la categoria.", false, "");
         } else {
-
           productData.socket = mbSocket;
           productData.chipset = mbChipset;
           productData.m2 = mbM2;
@@ -157,7 +157,6 @@ const addProduct = async () => {
           productData.watts = mbWatts;
 
           response = await createProduct(productData, loggedUser.token);
-          
         }
 
         break;
@@ -218,17 +217,23 @@ const addProduct = async () => {
           productData.typ2 = stTypeCon;
           productData.size = spSize;
           productData.watts = spWatts;
-
+          
           response = await createProduct(productData, loggedUser.token);
         }
-
+        
         break;
 
       default:
         break;
     }
 
-    if(response) {
+    var responseImage = null;
+
+    if(response.data["message"].productId != undefined) {
+      responseImage = await uploadImage(response.data["message"].productId, formData, loggedUser.token);
+    }
+
+    if(response && responseImage) {
       var message = response.data["message"];
 
       if(response.status == 200) {
@@ -236,6 +241,8 @@ const addProduct = async () => {
       }
 
       createNotification(response.status, message, true, "/");
+    } else {
+      createNotification(500, "Error al crear el producto", false, "");
     }
 
   }

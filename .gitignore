@@ -1,0 +1,6 @@
+api/uploads/products/*
+api/uploads/users/*
+
+#Not these
+!api/uploads/products/.gitkeep
+!api/uploads/users/.gitkeep

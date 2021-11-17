@@ -1,3 +1,6 @@
+var path = require('path');
+var fs = require('fs');
+
 var Product = require("../models/product");
 var Processor = require("../models/processor");
 var Motherboard = require("../models/motherboard");
@@ -14,7 +17,7 @@ function createProduct(req, res) {
   if(params.name && params.description && params.image && params.cost && params.categorie) {
     product.name = params.name;
     product.description = params.description;
-    product.image = params.image;
+    product.image = 'null';
     product.cost = params.cost;
     product.categorie = params.categorie;
 
@@ -50,8 +53,8 @@ function createProduct(req, res) {
               }
               
               if(cabinetStored) {
-                console.log(productStored);
-                res.status(200).send({ message: productStored });
+                console.log(cabinetStored);
+                res.status(200).send({ message: cabinetStored });
               } else {
                 console.log("No se ha registrado el gabinete.");
                 res.status(204).send({ message: "No se ha registrado el gabinete." });
@@ -254,8 +257,6 @@ function createProduct(req, res) {
             break;
         }
 
-
-
       } else {
         console.log("No se ha registrado el producto.");
         res.status(204).send({ message: "No se ha registrado el producto." });
@@ -400,8 +401,186 @@ function getProductByIdAndCategorie(req, res) {
   }
 }
 
+//SUBIR IMAGENES
+function uploadImage(req, res) {
+	var productId = req.params.id;
+
+	if(req.files){
+		var file_path = req.files.image.path;
+		var file_split = file_path.split('\\');
+		var file_name = file_split[2]; //Obtenemos el nombre de la imagen.
+		var ext_split = file_name.split('\.'); //Cortamos la extension del archivo.
+		var file_ext = ext_split[1];
+
+		if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif'){
+			
+			Product.findByIdAndUpdate(productId, {image: file_name}, {new:true}, (err, productUpdate)=>{
+        if(err) {
+          console.log(err);
+          return res.status(500).send({ message: 'Error en la petición.' });
+        }
+      
+        if(!productUpdate) {
+          console.log("No se ha podido actualizar el producto.");
+          return res.status(404).send({ message: 'No se ha podido actualizar el producto.' });
+        }
+        
+        console.log(productUpdate);
+
+        switch (req.body.category) {
+          case "CABINET":
+            
+            Cabinet.updateOne({productId:productId}, {image: file_name}, {'multi': true}, (err, cabinetUpdate) => {
+              if(err) {
+                console.log(err);
+                return res.status(500).send({ message: "Error al guardar el producto." });
+              } 
+
+              if(!cabinetUpdate) {
+                console.log("No se ha podido actualizar el gabinete.");
+                return res.status(404).send({ message: 'No se ha podido actualizar el gabinete.' });
+              }
+
+              console.log(cabinetUpdate);
+              return res.status(200).send({ cabinet: cabinetUpdate });
+            });
+
+            break;
+    
+          case "GRAPHICCARD":
+            
+            GraphicCard.updateOne({productId:productId}, {image: file_name}, {'multi': true}, (err, cabinetUpdate) => {
+              if(err) {
+                console.log(err);
+                return res.status(500).send({ message: "Error al guardar el producto." });
+              } 
+
+              if(!cabinetUpdate) {
+                console.log("No se ha podido actualizar el gabinete.");
+                return res.status(404).send({ message: 'No se ha podido actualizar el gabinete.' });
+              }
+
+              console.log(cabinetUpdate);
+              return res.status(200).send({ cabinet: cabinetUpdate });
+            });
+            
+            break;
+    
+          case "MOTHERBOARD":
+            
+            Motherboard.updateOne({productId:productId}, {image: file_name}, {'multi': true}, (err, cabinetUpdate) => {
+              if(err) {
+                console.log(err);
+                return res.status(500).send({ message: "Error al guardar el producto." });
+              } 
+
+              if(!cabinetUpdate) {
+                console.log("No se ha podido actualizar el gabinete.");
+                return res.status(404).send({ message: 'No se ha podido actualizar el gabinete.' });
+              }
+
+              console.log(cabinetUpdate);
+              return res.status(200).send({ cabinet: cabinetUpdate });
+            });
+
+            break;
+    
+          case "POWERSUPPLY":
+            
+            Powersupply.updateOne({productId:productId}, {image: file_name}, {'multi': true}, (err, cabinetUpdate) => {
+              if(err) {
+                console.log(err);
+                return res.status(500).send({ message: "Error al guardar el producto." });
+              } 
+
+              if(!cabinetUpdate) {
+                console.log("No se ha podido actualizar el gabinete.");
+                return res.status(404).send({ message: 'No se ha podido actualizar el gabinete.' });
+              }
+
+              console.log(cabinetUpdate);
+              return res.status(200).send({ cabinet: cabinetUpdate });
+            });
+
+            break;
+    
+          case "PROCESSOR":
+            
+            Processor.updateOne({productId:productId}, {image: file_name}, {'multi': true}, (err, cabinetUpdate) => {
+              if(err) {
+                console.log(err);
+                return res.status(500).send({ message: "Error al guardar el producto." });
+              } 
+
+              if(!cabinetUpdate) {
+                console.log("No se ha podido actualizar el gabinete.");
+                return res.status(404).send({ message: 'No se ha podido actualizar el gabinete.' });
+              }
+
+              console.log(cabinetUpdate);
+              return res.status(200).send({ cabinet: cabinetUpdate });
+            });
+
+            break;
+    
+          case "RAM":
+            
+            Ram.updateOne({productId:productId}, {image: file_name}, {'multi': true}, (err, cabinetUpdate) => {
+              if(err) {
+                console.log(err);
+                return res.status(500).send({ message: "Error al guardar el producto." });
+              } 
+
+              if(!cabinetUpdate) {
+                console.log("No se ha podido actualizar el gabinete.");
+                return res.status(404).send({ message: 'No se ha podido actualizar el gabinete.' });
+              }
+
+              console.log(cabinetUpdate);
+              return res.status(200).send({ cabinet: cabinetUpdate });
+            });
+
+            break;
+    
+          case "STORAGE":
+            
+            Storage.updateOne({productId:productId}, {image: file_name}, {'multi': true}, (err, cabinetUpdate) => {
+              if(err) {
+                console.log(err);
+                return res.status(500).send({ message: "Error al guardar el producto." });
+              } 
+
+              if(!cabinetUpdate) {
+                console.log("No se ha podido actualizar el gabinete.");
+                return res.status(404).send({ message: 'No se ha podido actualizar el gabinete.' });
+              }
+
+              console.log(cabinetUpdate);
+              return res.status(200).send({ cabinet: cabinetUpdate });
+            });
+
+            break;
+    
+          default:
+            return res.status(404).send("Petición no valida.");
+            break;
+        }
+
+			});
+
+		}else{
+			return removeFilesOfUploads(res, file_path, 'Extension no es valida.');
+		}
+
+	}else{
+    console.log("No se han subido imagenes.");
+		res.status(200).send({ message: 'No se han subido imagenes.' });
+	}
+}
+
 module.exports = {
   getAllProducts,
   getProductByIdAndCategorie,
-  createProduct
+  createProduct,
+  uploadImage
 };
