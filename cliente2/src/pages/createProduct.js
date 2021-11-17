@@ -6,23 +6,396 @@ import { Modal } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import { Row, Col, FloatingLabel, InputGroup } from "react-bootstrap";
+import { createProduct } from "../api/ProductAPI";
+import { createNotification } from "../services/notifications";
+
 const CategoriaButton = async () => {
     var valorSelect = document.getElementById("selectedOpt").value;
     var botoncito;
     var contador;
+    
     for (contador = 1;contador <= 7; contador++) {
-        console.log(contador);
         botoncito = document. getElementById("botoncito"+contador);
         botoncito.style.display = "none";    
     }
 
-    if(valorSelect === 0){
-        alert("Selecciona una categoria");
+    if(valorSelect == "0"){
+        createNotification(201, "Selecciona una categoria.", false, "");
     }else{
         botoncito = document. getElementById("botoncito"+valorSelect);
         botoncito.style.display = "block";    
     }
     
+}
+
+// CABINETE INFORMATION
+var cabinetSize = null;
+var cabinetColor = null;
+var cabinetWatts = null;
+var cabinetSlot25 = null;
+var cabinetSlot35 = null;
+
+//GRAPHIC CARD INFORMATION
+var gcType = null;
+var gcVel = null;
+var gcWatts = null;
+
+//MOTHERBOARD INFORMATION
+var mbSocket = null;
+var mbChipset = null;
+var mbM2 = null;
+var mbVelRam = null;
+var mbRamMax = null;
+var mbSize = null;
+var mbWatts = null;
+
+//POWER SUPPLY INFORMATION
+var psCertification = null;
+var psColor = null;
+var psWattage = null;
+var psWatts = null;
+
+//PROCESSOR INFORMATION
+var pType = null;
+var pNucleos = null;
+var pChipSets = [];
+var pVelocidad = null;
+var pWatts = null;
+var pSocket = null;
+
+//RAM 
+var ramType = null;
+var ramSize = null;
+var ramWatts = null;
+
+//STORAGE
+var stType = null;
+var stTypeCon = null;
+var spSize = null;
+var spWatts = null;
+
+const addProduct = async () => {
+
+  var formData = new FormData();
+  
+  var photo = document.getElementById("formFileSm").files[0];
+  var productName = document.getElementById("productName").value;
+  var productCost = document.getElementById("cost").value;
+  var productDescription = document.getElementById("floatingTextarea2").value;
+
+  var sel = document.getElementById("selectedOpt");
+  var productCategorie = sel.options[sel.selectedIndex].text;
+  productCategorie = productCategorie.toUpperCase();
+
+  if(photo == undefined || productCategorie == "SELECCIONA" || productName == "" || productCost == "" || productDescription == "") {
+    createNotification(204, "Llena la información faltante del producto.", false, "");
+  } else {
+
+    var response = null;
+
+    var productData = {
+      image: "prueba",
+      name: productName, 
+      cost: productCost,
+      description: productDescription,
+      categorie: productCategorie
+    }
+
+    const loggedUserJSON = window.localStorage.getItem('loggedUser');
+    if(loggedUserJSON) {
+      var loggedUser = JSON.parse(loggedUserJSON);
+    }
+
+    /* Categoria */
+
+    switch (productCategorie) {
+      case "CABINET":
+        
+        if((cabinetSize == "SELECCIONA" || cabinetSize == null) || (cabinetColor == "SELECCIONA" || cabinetColor == null) || (cabinetWatts == "" || cabinetWatts == null) || 
+        (cabinetSlot25 == "" || cabinetSlot25 == null) || (cabinetSlot35 == "" || cabinetSlot35 == null)) {
+          createNotification(204, "Llena la información faltante de la categoria.", false, "");
+        } else {
+
+          productData.size = cabinetSize;
+          productData.color = cabinetColor;
+          productData.slots3_5 = cabinetSlot35;
+          productData.slots2_5 = cabinetSlot25;
+          productData.watts = cabinetWatts;
+
+          response = await createProduct(productData, loggedUser.token);
+          
+        }
+        break;
+        
+      case "GRAPHICCARD":
+
+        if((gcType == "SELECCIONA" || gcType == null) || (gcVel == "" || gcVel == null) || (gcWatts == "" || gcWatts == null)) {
+          createNotification(204, "Llena la información faltante de la categoria.", false, "");
+        } else {
+          productData.vel = gcVel;
+          productData.type = gcType;
+          productData.watts = gcWatts;
+
+          response = await createProduct(productData, loggedUser.token);
+        }
+
+        break;
+
+      case "MOTHERBOARD":
+        
+        if((mbSocket == "SELECCIONA" || mbSocket == null) || (mbChipset == "SELECCIONA" || mbChipset == null) || (mbSize == "SELECCIONA" || mbSize == null) || (mbM2 == undefined || mbM2 == null) || 
+        (mbVelRam == "" || mbVelRam == null) || (mbRamMax == "" || mbRamMax == null) || (mbWatts == "" || mbWatts == null)) {
+          createNotification(204, "Llena la información faltante de la categoria.", false, "");
+        } else {
+
+          productData.socket = mbSocket;
+          productData.chipset = mbChipset;
+          productData.m2 = mbM2;
+          productData.velRam = mbVelRam;
+          productData.ramMax = mbRamMax;
+          productData.size = mbSize;
+          productData.watts = mbWatts;
+
+          response = await createProduct(productData, loggedUser.token);
+          
+        }
+
+        break;
+
+      case "POWERSUPPLY":
+
+        if((psCertification == "SELECCIONA" || psCertification == null) || (psColor == "SELECCIONA" || psColor == null) || (psWattage == "" || psWattage == null) || (psWatts == "" || psWatts == null)) {
+          createNotification(204, "Llena la información faltante de la categoria.", false, "");
+        } else {
+          productData.certification = psCertification;
+          productData.color = psColor;
+          productData.wattage = psWattage;
+          productData.watts = psWatts;
+
+          response = await createProduct(productData, loggedUser.token);
+        }
+        
+        break;
+
+      case "PROCESSOR": 
+
+      if((pType == "SELECCIONA" || pType == null) || (pSocket == "SELECCIONA" || pSocket == null) || (pNucleos == "" || pNucleos == null) || 
+          (pVelocidad == "" || pVelocidad == null) || (pWatts == "" || pWatts == null) || pChipSets.length === 0) {
+        createNotification(204, "Llena la información faltante de la categoria.", false, "");
+      } else {
+        productData.type = pType;
+        productData.cores = pNucleos;
+        productData.speed = pVelocidad;
+        productData.socket = pSocket;
+        productData.chipset = pChipSets;
+        productData.watts = pWatts;
+
+        response = await createProduct(productData, loggedUser.token);
+      }
+
+        break;
+
+      case "RAM":
+
+        if((ramType == "SELECCIONA" || ramType == null) || (ramSize == "" || ramSize == null) || (ramWatts == "" || ramWatts == null)) {
+          createNotification(204, "Llena la información faltante de la categoria.", false, "");
+        } else {
+          productData.type = ramType;
+          productData.size = ramSize;
+          productData.watts = ramWatts;
+
+          response = await createProduct(productData, loggedUser.token);
+        }
+
+        break;
+
+      case "STORAGE":
+
+        if((stType == "SELECCIONA" || stType == null) || (stTypeCon == "SELECCIONA" || stTypeCon == null) || (spSize == "" || spSize == null) || (spWatts == "" || spWatts == null)) {
+          createNotification(204, "Llena la información faltante de la categoria.", false, "");
+        } else {
+          productData.type = stType;
+          productData.typ2 = stTypeCon;
+          productData.size = spSize;
+          productData.watts = spWatts;
+
+          response = await createProduct(productData, loggedUser.token);
+        }
+
+        break;
+
+      default:
+        break;
+    }
+
+    if(response) {
+      var message = response.data["message"];
+
+      if(response.status == 200) {
+          message = "Producto registrado correctamente.!";
+      }
+
+      createNotification(response.status, message, true, "/");
+    }
+
+  }
+  
+}
+
+const getInformationCabinet = () => {
+  var selSize = document.getElementById("cabinetSize");
+  cabinetSize = selSize.options[selSize.selectedIndex].text;
+  cabinetSize = cabinetSize.toUpperCase(); 
+
+  var selColor = document.getElementById("cabinetColor");
+  cabinetColor = selColor.options[selColor.selectedIndex].text;
+  cabinetColor = cabinetColor.toUpperCase();
+  
+  cabinetWatts = document.getElementById("cabinetWatts").value;
+  cabinetSlot25 = document.getElementById("cabinetSlot25").value;
+  cabinetSlot35 = document.getElementById("cabinetSlot35").value;
+
+  if(cabinetSize == "SELECCIONA" || cabinetColor == "SELECCIONA" || cabinetWatts == "" || cabinetSlot25 == "" || cabinetSlot35 == "") {
+    createNotification(204, "Llena la información faltante.", false, "");
+    return false;
+  }
+
+  createNotification(200, "Información guardada.", false, "");
+  return true;
+}
+
+const getInformationGraphicCard = () => {
+  var selType = document.getElementById("gcType");
+  gcType = selType.options[selType.selectedIndex].text;
+  gcType = gcType.toUpperCase(); 
+
+  gcVel = document.getElementById("gcVel").value;
+  gcWatts = document.getElementById("gcWatts").value;
+
+  if(gcType == "SELECCIONA" || gcVel == "" || gcWatts == "") {
+    createNotification(204, "Llena la información faltante.", false, "");
+    return false;
+  }
+
+  createNotification(200, "Información guardada.", false, "");
+  return true;
+}
+
+const getInformationMotherBoard = () => {
+  var selMbSocket = document.getElementById("mbSocket");
+  mbSocket = selMbSocket.options[selMbSocket.selectedIndex].text;
+  mbSocket = mbSocket.toUpperCase(); 
+
+  var selMbChipset = document.getElementById("mbChipset");
+  mbChipset = selMbChipset.options[selMbChipset.selectedIndex].text;
+  mbChipset = mbChipset.toUpperCase(); 
+
+  var selMbSize = document.getElementById("mbTamanio");
+  mbSize = selMbSize.options[selMbSize.selectedIndex].text;
+  mbSize = mbSize.toUpperCase(); 
+
+  mbM2 = document.getElementById("checkboxM2").checked;
+  mbVelRam = document.getElementById("mbVel").value;
+  mbRamMax = document.getElementById("mbRamMax").value;
+  mbWatts = document.getElementById("mbWatts").value;
+  
+  if(mbSocket == "SELECCIONA" || mbChipset == "SELECCIONA" || mbSize == "SELECCIONA" || mbM2 == undefined || mbVelRam == "" || 
+    mbRamMax == "" || mbWatts == "") {
+    createNotification(204, "Llena la información faltante.", false, "");
+    return false;
+  }
+
+  createNotification(200, "Información guardada.", false, "");
+  return true;
+
+}
+
+const getInformationPowerSupply = () => {
+  var selPsCertification = document.getElementById("psCert");
+  psCertification = selPsCertification.options[selPsCertification.selectedIndex].text;
+  psCertification = psCertification.toUpperCase(); 
+
+  var selPsColor = document.getElementById("psColor");
+  psColor = selPsColor.options[selPsColor.selectedIndex].text;
+  psColor = psColor.toUpperCase(); 
+
+  psWattage = document.getElementById("psWattage").value;
+  psWatts = document.getElementById("psWatts").value;
+
+  if(psCertification == "SELECCIONA" || psColor == "SELECCIONA"|| psWattage == "" || psWatts == "") {
+    createNotification(204, "Llena la información faltante.", false, "");
+    return false;
+  }
+
+  createNotification(200, "Información guardada.", false, "");
+  return true;
+}
+
+const getInformationProcessor = () => {
+  var selPType = document.getElementById("pType");
+  pType = selPType.options[selPType.selectedIndex].text;
+  pType = pType.toUpperCase(); 
+
+  var selPSocket = document.getElementById("pSocket");
+  pSocket = selPSocket.options[selPSocket.selectedIndex].text;
+  pSocket = pSocket.toUpperCase(); 
+  
+  pNucleos = document.getElementById("pNucleos").value;
+  pVelocidad = document.getElementById("pVel").value;
+  pWatts = document.getElementById("pWatts").value;
+
+  for(var i = 1; i < 21; i++) {
+      if(document.getElementById(`inline-checkbox-${i}`).checked == true) {
+        pChipSets.push(document.getElementById(`inline-checkbox-${i}`).parentElement.textContent.trim());
+      }
+  }
+
+  if(pType == "SELECCIONA" || pSocket == "SELECCIONA" || pNucleos == "" || pVelocidad == "" || pWatts == "" || pChipSets.length === 0) {
+    createNotification(204, "Llena la información faltante.", false, "");
+    return false;
+  }
+
+  createNotification(200, "Información guardada.", false, "");
+  return true;
+  
+}
+
+const getInformationRam = () => {
+  var selRamType = document.getElementById("ramType");
+  ramType = selRamType.options[selRamType.selectedIndex].text;
+  ramType = ramType.toUpperCase(); 
+
+  ramSize = document.getElementById("ramSize").value;
+  ramWatts = document.getElementById("ramWatts").value;
+
+  if(ramType == "SELECCIONA" || ramSize == "" || ramWatts == "") {
+    createNotification(204, "Llena la información faltante.", false, "");
+    return false;
+  }
+
+  createNotification(200, "Información guardada.", false, "");
+  return true;
+}
+
+const getInformationStorage = () => {
+  var selStType = document.getElementById("stType");
+  stType = selStType.options[selStType.selectedIndex].text;
+  stType = stType.toUpperCase(); 
+
+  var selStTypeCon = document.getElementById("stTypeCon");
+  stTypeCon = selStTypeCon.options[selStTypeCon.selectedIndex].text;
+  stTypeCon = stTypeCon.toUpperCase(); 
+
+  spSize = document.getElementById("spSize").value;
+  spWatts = document.getElementById("spWatts").value;
+
+  if(stType == "SELECCIONA" || stTypeCon == "SELECCIONA" || spSize == "" || spWatts == "") {
+    createNotification(204, "Llena la información faltante.", false, "");
+    return false;
+  }
+
+  createNotification(200, "Información guardada.", false, "");
+  return true;
 }
 
 const CreateProduct = (props) => {
@@ -33,6 +406,7 @@ const CreateProduct = (props) => {
     const [modalShow5, setModalShow5] = React.useState(false);
     const [modalShow6, setModalShow6] = React.useState(false);
     const [modalShow7, setModalShow7] = React.useState(false);
+    
     return (
         <div>
             <Container id="ContCreateProd">
@@ -50,7 +424,7 @@ const CreateProduct = (props) => {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-8">
-                        <input type="text" className="form-control" id="floatingInput" />
+                        <input type="text" className="form-control" id="productName" />
                     </div>
                 </div>
                 <br/>
@@ -59,7 +433,7 @@ const CreateProduct = (props) => {
                         <h5 className="hCreateProd">Precio</h5>
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="basic-addon1">$</span>
-                            <input type="text" className="form-control" placeholder="Precio" aria-label="Precio"
+                            <input type="text" id="cost" className="form-control" placeholder="Precio" aria-label="Precio"
                                 aria-describedby="basic-addon1"/>
                         </div>
                         <center>
@@ -103,7 +477,7 @@ const CreateProduct = (props) => {
                 </span>
                 <br/>
                 <div className="row justify-content-center">
-                <button className="btn btn-success col-3" type="submit">
+                <button className="btn btn-success col-3" onClick={addProduct}>
                     Crear
                 </button>
                 </div>
@@ -112,30 +486,65 @@ const CreateProduct = (props) => {
             <MyVerticallyCenteredModal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
+                onHideSaveCabinet={() => {
+                  if(getInformationCabinet()) {
+                    setModalShow(false);
+                  }
+                }}
             />
             <MyVerticallyCenteredModal2
                 show={modalShow2}
                 onHide={() => setModalShow2(false)}
+                onHideSaveMB={() => {
+                  if(getInformationMotherBoard()) {
+                    setModalShow2(false);
+                  }
+                }}
             />
             <MyVerticallyCenteredModal3
                 show={modalShow3}
                 onHide={() => setModalShow3(false)}
+                onHideSavePS={() => {
+                  if(getInformationPowerSupply()) {
+                    setModalShow3(false);
+                  }
+                }}
             />
             <MyVerticallyCenteredModal4
                 show={modalShow4}
                 onHide={() => setModalShow4(false)}
+                onHideSaveRam={() => {
+                  if(getInformationRam()) {
+                    setModalShow4(false);
+                  }
+                }}
             />
             <MyVerticallyCenteredModal5
                 show={modalShow5}
                 onHide={() => setModalShow5(false)}
+                onHideSaveStorage={() => {
+                  if(getInformationStorage()) {
+                    setModalShow5(false);
+                  }
+                }}
             />
             <MyVerticallyCenteredModal6
                 show={modalShow6}
                 onHide={() => setModalShow6(false)}
+                onHideSaveP={() => {
+                  if(getInformationProcessor()) {
+                    setModalShow6(false);
+                  }
+                }}
             />
             <MyVerticallyCenteredModal7
                 show={modalShow7}
                 onHide={() => setModalShow7(false)}
+                onHideSaveGC={() => {
+                  if(getInformationGraphicCard()) {
+                    setModalShow7(false);
+                  }
+                }}
             />
         </div>
     )
@@ -161,19 +570,18 @@ function MyVerticallyCenteredModal(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Tamaño</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="cabinetSize" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
-                <option value="1">Barebone</option>
-                <option value="2">Minitower</option>
-                <option value="3">Sobremesa</option>
-                <option value="4">Torre</option>
+                <option value="1">ATX</option>
+                <option value="2">MICROATX</option>
+                <option value="3">MINIATX</option>
                 </select>
               </center>
             </Col>
             <Col md>
               <center>
                 <h5 className="hCreateModal">Color</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="cabinetColor" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">Negro</option>
                 <option value="2">Blanco</option>
@@ -188,7 +596,7 @@ function MyVerticallyCenteredModal(props) {
               <h5 className="hCreateModal">Watts</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="cabinetWatts" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -199,21 +607,21 @@ function MyVerticallyCenteredModal(props) {
             <Col md>
             <center>
               <h5 className="hCreateModal">Cantidad de Slots 2,5</h5>
-                <input type="text" className="form-control" placeholder="0" aria-label="0"
+                <input type="text" id="cabinetSlot25" className="form-control" placeholder="0" aria-label="0"
                     aria-describedby="basic-addon1"/>
             </center>
             </Col>
             <Col md>
             <center>
               <h5 className="hCreateModal">Cantidad de Slots 3,5</h5>
-                <input type="text" className="form-control" placeholder="0" aria-label="0"
+                <input type="text" id="cabinetSlot35" className="form-control" placeholder="0" aria-label="0"
                     aria-describedby="basic-addon1"/>
             </center>
             </Col>
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} variant="success">Aceptar</Button>
+          <Button onClick={props.onHideSaveCabinet} variant="success">Aceptar</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -239,9 +647,9 @@ function MyVerticallyCenteredModal2(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Socket</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="mbSocket" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
-                <option value="1">PGA</option>
+                <option value="1">AM4</option>
                 <option value="2">SPGA</option>
                 <option value="3">PPGA</option>
                 <option value="4">uPGA</option>
@@ -253,7 +661,7 @@ function MyVerticallyCenteredModal2(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Chipset</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="mbChipset" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">INTEL-Z590</option>
                 <option value="2">INTEL-H570</option>
@@ -283,8 +691,8 @@ function MyVerticallyCenteredModal2(props) {
             <center>
               <h5 className="hCreateModal">Posee M2</h5>
               <div className="input-group mb-3">
-                <Form.Group className="mb-3" id="formGridCheckbox">
-                  <Form.Check type="switch" label="Si posee m2" />
+                <Form.Group className="mb-3">
+                  <Form.Check type="switch" id="checkboxM2" label="Si posee m2" />
                 </Form.Group>
               </div>
             </center>
@@ -295,14 +703,14 @@ function MyVerticallyCenteredModal2(props) {
             <Col md>
             <center>
               <h5 className="hCreateModal">Velocidad Ram</h5>
-                <input type="text" className="form-control" placeholder="0" aria-label="0"
+                <input type="text" id="mbVel" className="form-control" placeholder="0" aria-label="0"
                     aria-describedby="basic-addon1"/>
             </center>
             </Col>
             <Col md>
               <center>
               <h5 className="hCreateModal">Ram Máxima</h5>
-                <input type="text" className="form-control" placeholder="0" aria-label="0"
+                <input type="text" id="mbRamMax" className="form-control" placeholder="0" aria-label="0"
                     aria-describedby="basic-addon1"/>
               </center>
             </Col>
@@ -311,7 +719,7 @@ function MyVerticallyCenteredModal2(props) {
             <Col md>
             <center>
                 <h5 className="hCreateModal">Tamaño</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="mbTamanio" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">ATX</option>
                 <option value="2">MICROATX</option>
@@ -324,7 +732,7 @@ function MyVerticallyCenteredModal2(props) {
               <h5 className="hCreateModal">Watts</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="mbWatts" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -332,7 +740,7 @@ function MyVerticallyCenteredModal2(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} variant="success">Aceptar</Button>
+          <Button onClick={props.onHideSaveMB} variant="success">Aceptar</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -358,7 +766,7 @@ function MyVerticallyCenteredModal3(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Certificación</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="psCert" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">80 PLUS</option>
                 <option value="2">80 PLUS Bronze</option>
@@ -372,7 +780,7 @@ function MyVerticallyCenteredModal3(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Color</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="psColor" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">Negro</option>
                 <option value="2">Blanco</option>
@@ -390,7 +798,7 @@ function MyVerticallyCenteredModal3(props) {
                 <h5 className="hCreateModal">Wattage</h5>
                 <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="psWattage" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
               </center>
@@ -400,7 +808,7 @@ function MyVerticallyCenteredModal3(props) {
               <h5 className="hCreateModal">Watts</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="psWatts" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -408,7 +816,7 @@ function MyVerticallyCenteredModal3(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} variant="success">Aceptar</Button>
+          <Button onClick={props.onHideSavePS} variant="success">Aceptar</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -434,7 +842,7 @@ function MyVerticallyCenteredModal4(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Tipo</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="ramType" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">DDR3</option>
                 <option value="2">DDR4</option>
@@ -447,7 +855,7 @@ function MyVerticallyCenteredModal4(props) {
               <h5 className="hCreateModal">Tamaño</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">GB</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="ramSize" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -457,7 +865,7 @@ function MyVerticallyCenteredModal4(props) {
               <h5 className="hCreateModal">Watts</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="ramWatts" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -465,7 +873,7 @@ function MyVerticallyCenteredModal4(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} variant="success">Aceptar</Button>
+          <Button onClick={props.onHideSaveRam} variant="success">Aceptar</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -491,7 +899,7 @@ function MyVerticallyCenteredModal5(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Tipo de Disco Duro</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="stType" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">HDD</option>
                 <option value="2">SSD</option>
@@ -501,7 +909,7 @@ function MyVerticallyCenteredModal5(props) {
             <Col md>
             <center>
                 <h5 className="hCreateModal">Tipo de Conexión</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="stTypeCon" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">Sata</option>
                 <option value="2">M2</option>
@@ -516,7 +924,7 @@ function MyVerticallyCenteredModal5(props) {
               <h5 className="hCreateModal">Tamaño</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">GB</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="spSize" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -526,7 +934,7 @@ function MyVerticallyCenteredModal5(props) {
               <h5 className="hCreateModal">Watts</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="spWatts" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -534,7 +942,7 @@ function MyVerticallyCenteredModal5(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} variant="success">Aceptar</Button>
+          <Button onClick={props.onHideSaveStorage} variant="success">Aceptar</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -560,7 +968,7 @@ function MyVerticallyCenteredModal6(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Tipo de Procesador</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="pType" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">AMD</option>
                 <option value="2">INTEL</option>
@@ -571,7 +979,7 @@ function MyVerticallyCenteredModal6(props) {
               <center>
                 <h5 className="hCreateModal">Núcleos</h5>
                 <div className="input-group mb-3">
-                    <input type="text" className="form-control" placeholder="0" aria-label="Núcleos"
+                    <input type="text" id="pNucleos" className="form-control" placeholder="0" aria-label="Núcleos"
                         aria-describedby="basic-addon1"/>
                 </div>
               </center>
@@ -579,6 +987,20 @@ function MyVerticallyCenteredModal6(props) {
           </Row>
           <br></br>
           <Row className="g-2">
+          <Col md>
+              <center>
+                <h5 className="hCreateModal">Socket</h5>
+                <select id="pSocket" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <option value="0" defaultValue>Selecciona</option>
+                <option value="1">AM4</option>
+                <option value="2">SPGA</option>
+                <option value="3">PPGA</option>
+                <option value="4">uPGA</option>
+                <option value="5">FCBGA</option>
+                <option value="6">LGA</option>
+                </select>
+              </center>
+            </Col>
             <Col>
               <center>
                 <h5 className="hCreateModal">Chipset</h5>
@@ -747,7 +1169,7 @@ function MyVerticallyCenteredModal6(props) {
               <h5 className="hCreateModal">Velocidad</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">Hz</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Hz"
+                  <input type="text" id="pVel" className="form-control" placeholder="0" aria-label="Hz"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -757,7 +1179,7 @@ function MyVerticallyCenteredModal6(props) {
               <h5 className="hCreateModal">Watts</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="pWatts" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -765,7 +1187,7 @@ function MyVerticallyCenteredModal6(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} variant="success">Aceptar</Button>
+          <Button onClick={props.onHideSaveP} variant="success">Aceptar</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -793,7 +1215,7 @@ function MyVerticallyCenteredModal7(props) {
               <h5 className="hCreateModal">Velocidad</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">Hz</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Hz"
+                  <input type="text" className="form-control" id="gcVel" placeholder="0" aria-label="Hz"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -801,7 +1223,7 @@ function MyVerticallyCenteredModal7(props) {
             <Col md>
               <center>
                 <h5 className="hCreateModal">Tipo de Tarjeta</h5>
-                <select id="selectedOpt" className="form-select form-select-mb" aria-label=".form-select-mb example">
+                <select id="gcType" className="form-select form-select-mb" aria-label=".form-select-mb example">
                 <option value="0" defaultValue>Selecciona</option>
                 <option value="1">GDDR5</option>
                 <option value="2">GDDR5X</option>
@@ -814,7 +1236,7 @@ function MyVerticallyCenteredModal7(props) {
               <h5 className="hCreateModal">Watts</h5>
               <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">W</span>
-                  <input type="text" className="form-control" placeholder="0" aria-label="Watts"
+                  <input type="text" id="gcWatts" className="form-control" placeholder="0" aria-label="Watts"
                       aria-describedby="basic-addon1"/>
               </div>
             </center>
@@ -822,7 +1244,7 @@ function MyVerticallyCenteredModal7(props) {
           </Row>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={props.onHide} variant="success">Aceptar</Button>
+          <Button onClick={props.onHideSaveGC} variant="success">Aceptar</Button>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>

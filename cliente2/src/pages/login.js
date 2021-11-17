@@ -24,7 +24,7 @@ const loginUser = async () => {
             surname: user.data.user.surname,
             image: user.data.user.image,
             role: user.data.user.role,
-            toke: token.data.token
+            token: token.data.token
         }
 
         window.localStorage.setItem(
