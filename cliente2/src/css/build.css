@@ -19,3 +19,8 @@
     background-color: rgb(55, 88, 116);
     color: white;
 }
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
