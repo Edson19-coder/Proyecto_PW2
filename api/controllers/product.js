@@ -578,9 +578,19 @@ function uploadImage(req, res) {
 	}
 }
 
+function getImageFile(req, res){
+	var image_files = req.params.imageFile;
+	var path_file = './uploads/products/' + image_files;
+
+	fs.exists(path_file, (exists)=>{
+		return exists ? res.sendFile(path.resolve(path_file)) : res.status(200).send({ message: 'No existe la imagen...' });
+	})
+}
+
 module.exports = {
   getAllProducts,
   getProductByIdAndCategorie,
   createProduct,
-  uploadImage
+  uploadImage,
+  getImageFile
 };

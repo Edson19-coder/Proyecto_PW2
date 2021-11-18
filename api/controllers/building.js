@@ -74,7 +74,7 @@ function getMotherboard(req, res) {
       }
 
       console.log({ graphicCards, graphicCards });
-      return res.status(500).send({ graphicCards, graphicCards });
+      return res.status(200).send({ graphicCards, graphicCards });
     });
   } else {
     console.log("Envia todos los datos faltantes.");
@@ -83,24 +83,16 @@ function getMotherboard(req, res) {
 }
 
 function getStorage(req, res) {
-  var params = req.body;
 
-  if (params.m2) {
-    Storage.find().exec((err, storages) => {
-      if (err) {
-        console.log("Error en la petición.");
-        return res.status(500).send({ message: "Error en la petición." });
-      }
+  Storage.find().exec((err, storages) => {
+    if (err) {
+      console.log("Error en la petición.");
+      return res.status(500).send({ message: "Error en la petición." });
+    }
 
-      console.log(storages);
-      return res.status(500).send({ storages, storages });
-    });
-  } else {
-    console.log("Envia todos los datos faltantes.");
-    return res
-      .status(200)
-      .send({ message: "Envia todos los datos faltantes." });
-  }
+    console.log(storages);
+    return res.status(200).send({ storages, storages });
+  });
 }
 
 function getRam(req, res) {
@@ -111,7 +103,7 @@ function getRam(req, res) {
     }
 
     console.log(rams);
-    return res.status(500).send({ rams, rams });
+    return res.status(200).send({ rams, rams });
   });
 }
 

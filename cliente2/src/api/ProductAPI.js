@@ -28,3 +28,32 @@ export const uploadImage = async (productId, formData, token) => {
         return error;
     }
 }
+
+export const getProductByIdAndCategory = async (productId, category, token) => {
+    try {
+        const response = await axios.get(`/getProduct/${productId}/${category}`, {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
+
+
+export const getImageProduct = async (image, token) => {
+    try {
+        const response = await axios.get(`/get-image-prod/${image}`, {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}

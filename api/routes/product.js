@@ -13,5 +13,6 @@ api.post('/createProduct', md_auth.ensureAuth, ProductController.createProduct);
 api.get('/getProducts/:page?', md_auth.ensureAuth, ProductController.getAllProducts);
 api.get('/getProduct/:productId/:categorie', md_auth.ensureAuth, ProductController.getProductByIdAndCategorie);
 api.post('/upload-image-prod/:id', [md_auth.ensureAuth, mad_upload], ProductController.uploadImage);
+api.get('/get-image-prod/:imageFile', ProductController.getImageFile);
 
 module.exports = api;
