@@ -24,7 +24,6 @@ const NavBar = ( props ) => {
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action/3.4">Dashboard</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.4">Crear Producto</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.4">Dashboard</NavDropdown.Item>
                     </NavDropdown>
                     <Button id="btnEntrar" variant="light" href="/login">LogIn</Button>
                     <Button id="btnRegistrar" variant="outline-light" href="/register">SignIn</Button>
