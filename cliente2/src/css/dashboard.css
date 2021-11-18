@@ -1,0 +1,96 @@
+.home-section .home-content{
+    position: relative;
+    padding-top: 100px;
+}
+.home-content .overview-boxes{
+    display: flex; 
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 0 20px;
+    flex-wrap: wrap;
+ }
+.home-content .overview-boxes .box{
+    width: calc(100% /4 - 15px);
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: 15px 14px;
+    background: white;
+    border-radius: 2rem;
+    border-color: gray;
+    border-style: solid;
+    border-width: 5px;
+}
+
+.home-content .overview-boxes .box_topic{
+    font-size: 20px;
+    font-weight: 500;    
+}
+.home-content .overview-boxes .number{
+    font-size: 35px;
+    font-weight: 500;
+    margin-top: 5px;
+    display: inline-block;
+}
+.overview-boxes .indicator .i{
+    height: 20px;
+    width: 20px;
+    background: #8FDACB;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    margin-right: 5px;
+}
+.overview-boxes .box .cart{
+    font-size: 32px;
+    font-weight: 500;
+    height: 50px;
+    width: 50px;
+    background: #cce5ff;
+    color: #66b0ff;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 12px;
+}
+.overview-boxes .box .money{
+    font-size: 32px;
+    font-weight: 500;
+    height: 50px;
+    width: 50px;
+    background: #2BD47D;
+    color: #C0F2D8;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 12px;
+}
+.home-section .sales-boxes {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+.home-section .sales-boxes .sales-details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.home-section .sales-boxes .box .title{
+    font-size: 24px;
+    font-weight: 500;
+    color: white;
+}
+.home-section .sales-boxes .box .topic{
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+
+}
+.home-section .sales-boxes .box li{
+    list-style: none;
+    margin: 8px 0;
+}
+.sales-boxes .box li a{
+    color: lightgray;
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+}
