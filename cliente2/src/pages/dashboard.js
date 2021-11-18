@@ -80,13 +80,40 @@ const dashboard = (props) => {
                                         <li><a href="#">PainChip</a></li>
                                         <li><a href="#">PainChip</a></li>
                                     </ul>
-
+                                    <ul className="details">
+                                        <li className="topic">Sale</li>
+                                        <li><a href="#">Delivered</a></li>
+                                        <li><a href="#">Delivered</a></li>
+                                        <li><a href="#">Delivered</a></li>
+                                        <li><a href="#">Delivered</a></li>
+                                        <li><a href="#">Delivered</a></li>
+                                        <li><a href="#">Delivered</a></li>
+                                    </ul>
+                                    <ul className="details">
+                                        <li className="topic">Total</li>
+                                        <li><a href="#">$100</a></li>
+                                        <li><a href="#">$100</a></li>
+                                        <li><a href="#">$100</a></li>
+                                        <li><a href="#">$100</a></li>
+                                        <li><a href="#">$100</a></li>
+                                        <li><a href="#">$100</a></li>
+                                    </ul>
+                                </div>
+                                <div className="button">
+                                    <a href="#">Ver mas</a>
                                 </div>
                             </div>
-                            <div className="recent-sale box">
-                                <div className="title">Top Sales</div>
-                                <div className="sales-details">
-                                </div>
+                            <div className="top-sales box">
+                                <div className="title">Top Selling Product</div>
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <img src="https://static2.cbrimages.com/wordpress/wp-content/uploads/2020/09/MdhoETzFvrzaKiqfuymfDA-e1599664003985.jpg" alt="" />
+                                            <span className="product_name">Gucci Woman</span>
+                                        </a>
+                                        <span className="price">$14.99</span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
