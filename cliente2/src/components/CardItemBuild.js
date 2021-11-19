@@ -9,7 +9,7 @@ const CardItemBuild = (props) => {
         <div>
             <Card className="col-sm-4 cardItem">
                 <Card.Header>
-                    <Card.Title style={{margin: '0px'}}><span>{props.name}</span><span style={{float: 'right'}}>{props.price}$</span></Card.Title>
+                    <Card.Title style={{margin: '0px'}}><span>{props.name}</span><span style={{float: 'right'}}>${props.price}</span></Card.Title>
                 </Card.Header>                
                 <Card.Body>
                     <Card.Img className="cardImg" variant="top" src={props.img} />

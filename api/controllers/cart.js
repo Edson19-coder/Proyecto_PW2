@@ -1,40 +1,43 @@
-var Cart = require("../models/cart");
+
 var Product = require("../models/product");
+var Cart = require("../models/cart");
 
 function saveBuilding(req, res) {
     var params = req.body;
     var cart = new Cart();
   
-    if (
-      params.motherboardId &&
-      params.processorId &&
-      params.graphiccardId &&
-      params.ramId &&
-      params.storageId
-    ) {
-      cart.userId = req.user.sub;
-      cart.motherboardId = params.motherboardId;
-      cart.processorId = params.processorId;
-      cart.graphiccardId = params.graphiccardId;
-      cart.ramId = params.ramId;
-      cart.storageId = params.storageId;
+    if (params.productsBuild) {
+
+      Cart.find({userId: req.user.sub}).remove(err => {
   
-      cart.save((err, cartStored) => {
-        if (err) {
+        if(err) {
           console.log(err);
-          return res
-            .status(500)
-            .send({ message: "Error al guardar el Carrito." });
+          return res.status(500).send({message: 'Error al borrar el Carrito.'});
         }
+
+        cart.userId = req.user.sub;
+        cart.products = params.productsBuild;
+        cart.save((err, cartStored) => {
+            if (err) {
+              console.log(err);
+              return res
+                .status(500)
+                .send({ message: "Error al guardar el Carrito." });
+            }
+      
+            if (cartStored) {
+              console.log(cartStored);
+              res.status(200).send({ message: cartStored });
+            } else {
+              console.log("No se ha registrado el Carrito.");
+              res.status(404).send({ message: "No se ha registrado el Carrito." });
+            }
+          });
   
-        if (cartStored) {
-          console.log(cartStored);
-          res.status(200).send({ message: cartStored });
-        } else {
-          console.log("No se ha registrado el Carrito.");
-          res.status(404).send({ message: "No se ha registrado el Carrito." });
-        }
+        console.log("Carrito borrado correctamente.");
+  
       });
+
     } else {
       console.log("Envia todos los datos faltantes.");
       res.status(200).send({ message: "Envia todos los datos faltantes." });
@@ -68,7 +71,7 @@ function deleteBuilding(req, res) {
 
 function getCart(req, res) {
 
-  Cart.find({userId: req.user.sub}).exec((err, cart) => {
+  Cart.find({userId: req.user.sub}).populate({path:'products'}).exec((err, cart) => {
 
     if(err) {
       console.log(err);

@@ -74,3 +74,48 @@ export const getStorageBuilding = (token) => {
         return error;
     }
 }
+
+export const getCabinetBuilding = (cabinetData ,token) => {
+    try {
+        var response = axios.post("/getCabinet-building", cabinetData, {
+            headers: {
+                Authorization: token
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
+
+export const getPowerSupplyBuilding = (powerSupplyData ,token) => {
+    try {
+        var response = axios.post("/getPowerSupply-building", powerSupplyData, {
+            headers: {
+                Authorization: token
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
+
+export const createBuildSendToCart = (productsBuild, token) => {
+    try {
+        var response = axios.post("/saveBuilding", productsBuild, {
+            headers: {
+                Authorization: token
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}

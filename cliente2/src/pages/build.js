@@ -3,24 +3,31 @@ import { useState } from "react";
 import { Fragment } from "react";
 import { Container, FloatingLabel,Form, Col, Row, ProgressBar, Accordion, CardGroup, Button } from "react-bootstrap";
 import CardItem from "../components/CardItemBuild";
-import { getProcessorByTypeBuilding, getMotherBoardBuilding, getGraphicCardBuilding, getRamBuilding, getStorageBuilding } from "../api/BuildingAPI";
+import { getProcessorByTypeBuilding, getMotherBoardBuilding, getGraphicCardBuilding, getRamBuilding, getStorageBuilding, getCabinetBuilding, getPowerSupplyBuilding, createBuildSendToCart } from "../api/BuildingAPI";
 import { getProductByIdAndCategory } from "../api/ProductAPI";
 import { GLOBAL } from "../api/GLOBAL";
 import { createNotification } from "../services/notifications";
-
-var porcentajeBuild = 20;
 
 var typeBuild = null;
 var processorBuild = null;
 var motherBoardBuild = null;
 var graphicCardBuild = null;
+var ramBuild = null;
+var storageBuild = null;
+var cabinetBuild = null;
+var powerSupplyBuild = null;
 
+var totalWatts = 0;
+var totalCost = 0;
 
 const Index = (props) => {
 
+    const [progressBuild = 0, setProgressBuild] = useState();
+    const [totalPayBuild = 0, setTotalPayBuild] = useState();
 
     const [processors, setProcessors] = useState([]);
     const handleChange = async (event) => {
+
         var selTypeBuild = document.getElementById("typeBuild");
         typeBuild  = selTypeBuild.options[selTypeBuild.selectedIndex].text;
         typeBuild = typeBuild.toUpperCase();
@@ -51,6 +58,7 @@ const Index = (props) => {
             setProcessors(listProcessors);
 
             if(listProcessors.length > 0) {
+                setProgressBuild(12.5);
                 document.getElementById("pAccordion").classList.remove("disabled");
             }
         }
@@ -73,7 +81,11 @@ const Index = (props) => {
             socket: response.data[0].socket,
             chipset: response.data[0].chipset
         };
-        
+
+        totalWatts = totalWatts + parseInt(response.data[0].watts, 10);
+        totalCost = totalCost + parseInt(response.data[0].cost, 10);
+        setTotalPayBuild(totalCost);
+
         response = await getMotherBoardBuilding(processorData, loggedUser.token);
         
         if(response.data["motherboards"] != undefined) {
@@ -81,6 +93,7 @@ const Index = (props) => {
             setMotherboards(listMotherboards);
 
             if(listMotherboards.length > 0) {
+                setProgressBuild(25);
                 createNotification(200, "Procesador agregado, escoge una placa madre.", false, "");
                 document.getElementById("mbAccordion").classList.remove("disabled");
             } else {
@@ -106,6 +119,10 @@ const Index = (props) => {
             idMotherboard: response.data[0].socket
         };
 
+        totalWatts = totalWatts + parseInt(response.data[0].watts, 10);
+        totalCost = totalCost + parseInt(response.data[0].cost, 10);
+        setTotalPayBuild(totalCost);
+
         response = await getGraphicCardBuilding(motherboardData, loggedUser.token);
 
         if(response.data["graphicCards"] != undefined) {
@@ -113,6 +130,7 @@ const Index = (props) => {
             setGraphicCards(listGraphicCards);
 
             if(listGraphicCards.length > 0) {
+                setProgressBuild(37.5);
                 createNotification(200, "Placa madre agregado, escoge una tarjeta grafica.", false, "");
                 document.getElementById("gcAccordion").classList.remove("disabled");
             } else {
@@ -123,7 +141,6 @@ const Index = (props) => {
     }
 
     const [rams, setRams] = useState([]);
-    const [storages, setStorages] = useState([]);
     const getInformationRamAndStorage = async (event) => {
         event.preventDefault();
         graphicCardBuild = event.target.id;
@@ -133,28 +150,187 @@ const Index = (props) => {
             var loggedUser = JSON.parse(loggedUserJSON);
         }
 
+        var response = await getProductByIdAndCategory(graphicCardBuild, "GRAPHICCARD", loggedUser.token);
+
+        totalWatts = totalWatts + parseInt(response.data[0].watts, 10);
+        totalCost = totalCost + parseInt(response.data[0].cost, 10);
+        setTotalPayBuild(totalCost);
+
         var responseRam = await getRamBuilding(loggedUser.token);
-        var responseStorage = await getStorageBuilding(loggedUser.token);
         
-        console.log(responseRam);
-        console.log(responseStorage);
-        
-        if(responseRam.data["rams"] != undefined && responseStorage.data["storages"] != undefined) {
+        if(responseRam.data["rams"] != undefined) {
             var listRams = responseRam.data["rams"];
-            var listStorages = responseStorage.data["storages"];
 
             setRams(listRams);
-            setStorages(listStorages);
             
-            if(listRams.length > 0 && listStorages.length > 0) {
+            if(listRams.length > 0) {
+                setProgressBuild(50);
                 createNotification(200, "Tarjeta grafica agregado, escoge los demas componentes faltantes.", false, "");
                 document.getElementById("ramAccordion").classList.remove("disabled");
-                document.getElementById("stAccordion").classList.remove("disabled");
             } else {
                 createNotification(201, "Lo sentimos, no hay productos compatibles.", false, "");
                 document.getElementById('gcAccordion').className = 'disabled';
             }
         } 
+    }
+
+    const [storages, setStorages] = useState([]);
+    const getInformationStorage = async (event) => {
+        event.preventDefault();
+        ramBuild = event.target.id;
+
+        const loggedUserJSON = window.localStorage.getItem('loggedUser');
+        if(loggedUserJSON) {
+            var loggedUser = JSON.parse(loggedUserJSON);
+        }
+
+        var response = await getProductByIdAndCategory(ramBuild, "RAM", loggedUser.token);
+
+        totalWatts = totalWatts + parseInt(response.data[0].watts, 10);
+        totalCost = totalCost + parseInt(response.data[0].cost, 10);
+        setTotalPayBuild(totalCost);
+
+        var responseStorage = await getStorageBuilding(loggedUser.token);
+
+        if(responseStorage.data["storages"] != undefined) {
+            var listStorages = responseStorage.data["storages"];
+
+            setStorages(listStorages);
+            
+            if(listStorages.length > 0) {
+                setProgressBuild(62.5);
+                createNotification(200, "Memoria ram agregada, escoge los demas componentes faltantes.", false, "");
+                document.getElementById("stAccordion").classList.remove("disabled");
+            } else {
+                createNotification(201, "Lo sentimos, no hay productos compatibles.", false, "");
+            }
+        } 
+    }
+
+    const [cabinets, setCabinets] = useState([]);
+    const getInformationCabinet = async (event) => {
+        event.preventDefault();
+        storageBuild = event.target.id;
+
+        const loggedUserJSON = window.localStorage.getItem('loggedUser');
+        if(loggedUserJSON) {
+            var loggedUser = JSON.parse(loggedUserJSON);
+        }
+
+        var response = await getProductByIdAndCategory(motherBoardBuild, "MOTHERBOARD", loggedUser.token);
+
+        var cabinetData = {
+            size: response.data[0].size
+        };
+
+        response = await getProductByIdAndCategory(storageBuild, "STORAGE", loggedUser.token);
+
+        totalWatts = totalWatts + parseInt(response.data[0].watts, 10);
+        totalCost = totalCost + parseInt(response.data[0].cost, 10);
+        setTotalPayBuild(totalCost);
+
+        response = await getCabinetBuilding(cabinetData, loggedUser.token);
+
+        if(response.data["cabinets"] != undefined) {
+            var listCabinets = response.data["cabinets"];
+
+            setCabinets(listCabinets);
+            
+            if(listCabinets.length > 0) {
+                setProgressBuild(75);
+                createNotification(200, "Disco duro agregada, escoge un gabinete.", false, "");
+                document.getElementById("cAccordion").classList.remove("disabled");
+            } else {
+                createNotification(201, "Lo sentimos, no hay productos compatibles.", false, "");
+            }
+        }
+    }
+
+    const [powerSupplys, setPowerSupplys] = useState([]);
+    const getInformationPowerSupply = async (event) => {
+        event.preventDefault();
+        cabinetBuild = event.target.id;
+
+        const loggedUserJSON = window.localStorage.getItem('loggedUser');
+        if(loggedUserJSON) {
+            var loggedUser = JSON.parse(loggedUserJSON);
+        }
+
+        var response = await getProductByIdAndCategory(cabinetBuild, "CABINET", loggedUser.token);
+
+        totalWatts = totalWatts + parseInt(response.data[0].watts, 10);
+        totalCost = totalCost + parseInt(response.data[0].cost, 10);
+        setTotalPayBuild(totalCost);
+
+        var powerSupplyData = {
+            totalWatts: totalWatts
+        };
+
+        response = await getPowerSupplyBuilding(powerSupplyData, loggedUser.token);
+
+        if(response.data["powerSupplys"] != undefined) {
+            var listPowerSupplys = response.data["powerSupplys"];
+
+            setPowerSupplys(listPowerSupplys);
+            
+            if(listPowerSupplys.length > 0) {
+                setProgressBuild(87.5);
+                createNotification(200, "Fuente de poder agregada, confirma todos tus componentes para añadirlos al carrito!", false, "");
+                document.getElementById("spAccordion").classList.remove("disabled");
+            } else {
+                createNotification(201, "Lo sentimos, no hay productos compatibles.", false, "");
+            }
+        }
+    }
+
+    const getInformationFinal = async (event) => {
+        event.preventDefault();
+        powerSupplyBuild = event.target.id;
+
+        const loggedUserJSON = window.localStorage.getItem('loggedUser');
+        if(loggedUserJSON) {
+            var loggedUser = JSON.parse(loggedUserJSON);
+        }
+
+        var response = await getProductByIdAndCategory(powerSupplyBuild, "POWERSUPPLY", loggedUser.token);
+
+        totalCost = totalCost + parseInt(response.data[0].cost, 10);
+        setTotalPayBuild(totalCost);
+
+        if(response.data != undefined) {
+            setProgressBuild(100);
+            createNotification(200, "Fuente de poder agregada, confirma todos tus componentes para añadirlos al carrito!", false, "");
+            document.getElementById("spAccordion").classList.remove("disabled");
+        } else {
+            createNotification(201, "Lo sentimos, no hay productos compatibles.", false, "");
+        }
+    }
+
+    const createBuildToCart = async (event) => {
+        if(progressBuild === 100) {
+
+            const loggedUserJSON = window.localStorage.getItem('loggedUser');
+            if(loggedUserJSON) {
+                var loggedUser = JSON.parse(loggedUserJSON);
+            }
+
+            var prodIdData = {
+                productsBuild: [processorBuild, motherBoardBuild, graphicCardBuild, ramBuild, storageBuild, cabinetBuild, powerSupplyBuild]
+            };
+
+            var response = await createBuildSendToCart(prodIdData, loggedUser.token);
+
+            var message = response.data["message"];
+
+            if(response.status == 200) {
+                message = "Productos agregados al carrito.!";
+            }
+
+            createNotification(response.status, message, true, "/cart");
+            
+        } else {
+            createNotification(201, "Selecciona los componentes faltantes!", false, "");
+        }
     }
 
     return (
@@ -170,7 +346,7 @@ const Index = (props) => {
                             </h2>
                         </Col>
                     </Row>
-                    <ProgressBar id="progressBar" animated now={porcentajeBuild} label={`${porcentajeBuild}%`}/>
+                    <ProgressBar id="progressBar" animated now={progressBuild} label={`${progressBuild}%`}/>
                     <br></br>
                     <select id="typeBuild" onChange={handleChange} className="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option value="0" defaultValue>Selecciona</option>
@@ -181,7 +357,7 @@ const Index = (props) => {
                     <Accordion flush>
                       
                       <Accordion.Item eventKey="0" id="pAccordion" className="disabled">
-                        <Accordion.Header><h4>Procesador</h4></Accordion.Header>
+                        <Accordion.Header id="pAccordionEx"><h4>Procesador</h4></Accordion.Header>
                         <Accordion.Body>
                             <CardGroup className="justify-content-md-center">
                                 {processors.map((item) => (
@@ -217,7 +393,7 @@ const Index = (props) => {
                         <Accordion.Body>
                             <CardGroup className="justify-content-md-center">
                                 {rams.map((item) => (
-                                    <CardItem key={item._id} id={item.productId} price={item.cost} name={item.name} description={item.description} functionName={getInformationRamAndStorage} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
+                                    <CardItem key={item._id} id={item.productId} price={item.cost} name={item.name} description={item.description} functionName={getInformationStorage} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
                                 ))}
                             </CardGroup>
                         </Accordion.Body>
@@ -228,30 +404,30 @@ const Index = (props) => {
                         <Accordion.Body>
                             <CardGroup className="justify-content-md-center">
                                 {storages.map((item) => (
-                                    <CardItem key={item._id} id={item.productId} price={item.cost} name={item.name} description={item.description} functionName={getInformationRamAndStorage} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
+                                    <CardItem key={item._id} id={item.productId} price={item.cost} name={item.name} description={item.description} functionName={getInformationCabinet} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
                                 ))}
                             </CardGroup>
                         </Accordion.Body>
                       </Accordion.Item>
 
-                      <Accordion.Item eventKey="5" id="spAccordion" className="disabled">
-                        <Accordion.Header><h4>Alimentación de energía</h4></Accordion.Header>
+                      <Accordion.Item eventKey="5" id="cAccordion" className="disabled">
+                        <Accordion.Header><h4>Gabinete</h4></Accordion.Header>
                         <Accordion.Body>
                             <CardGroup className="justify-content-md-center">
-                                <CardItem id="1" price="5000" name="Squid Game" img="https://assets.rockpapershotgun.com/images/2019/07/AMD-Ryzen-5-2600-best-budget-gaming-cpu.jpg"></CardItem>
-                                <CardItem id="12" price="5001" name="Squid Game" img="https://assets.rockpapershotgun.com/images/2019/07/AMD-Ryzen-5-2600-best-budget-gaming-cpu.jpg"></CardItem>
-                                <CardItem id="13" price="5002" name="Squid Game" img="https://assets.rockpapershotgun.com/images/2019/07/AMD-Ryzen-5-2600-best-budget-gaming-cpu.jpg"></CardItem>
+                                {cabinets.map((item) => (
+                                    <CardItem key={item._id} id={item.productId} price={item.cost} name={item.name} description={item.description} functionName={getInformationPowerSupply} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
+                                ))}
                             </CardGroup>
                         </Accordion.Body>
                       </Accordion.Item>
 
-                      <Accordion.Item eventKey="6" id="cAccordion" className="disabled">
-                        <Accordion.Header><h4>Cabinete</h4></Accordion.Header>
+                      <Accordion.Item eventKey="6" id="spAccordion" className="disabled">
+                        <Accordion.Header><h4>Alimentación de energía</h4></Accordion.Header>
                         <Accordion.Body>
                             <CardGroup className="justify-content-md-center">
-                                <CardItem id="1" price="5000" name="Squid Game" img="https://assets.rockpapershotgun.com/images/2019/07/AMD-Ryzen-5-2600-best-budget-gaming-cpu.jpg"></CardItem>
-                                <CardItem id="12" price="5001" name="Squid Game" img="https://assets.rockpapershotgun.com/images/2019/07/AMD-Ryzen-5-2600-best-budget-gaming-cpu.jpg"></CardItem>
-                                <CardItem id="13" price="5002" name="Squid Game" img="https://assets.rockpapershotgun.com/images/2019/07/AMD-Ryzen-5-2600-best-budget-gaming-cpu.jpg"></CardItem>
+                                {powerSupplys.map((item) => (
+                                    <CardItem key={item._id} id={item.productId} price={item.cost} name={item.name} description={item.description} functionName={getInformationFinal} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
+                                ))}
                             </CardGroup>
                         </Accordion.Body>
                       </Accordion.Item>
@@ -260,9 +436,11 @@ const Index = (props) => {
                     <br></br>
                     <Row className="justify-content-md-center">
                         <Col md={2}>
-                            <Button variant="outline-light" size="lg">Terminar Build</Button>{' '}
+                        <Button variant="outline-light" size="lg" id="btnCreateBuild" onClick={createBuildToCart}>Terminar Build</Button>
                         </Col>
                     </Row>
+                    <br></br>
+                    <center><label>Total a pagar: ${totalPayBuild}</label></center>
                     <br></br>
                 </Container>
             </Container>
