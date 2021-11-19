@@ -11,6 +11,7 @@ import cart from './pages/cart';
 import CreateProduct from './pages/createProduct';
 import build from './pages/build';
 import dashboard from './pages/dashboard';
+import history from './pages/history';
 
 //Components
 import NavBar from "../src/components/NavBar";
@@ -34,6 +35,7 @@ function App() {
       <hr className="hr"></hr>      
       <Switch>
         <Route exact path="/" component={index} />
+        <Route exact path="/index" component={index} />
         <Route exact path="/login" component={login} />
         <Route exact path="/register" component={register} />
         <Route exact path="/search" component={search} />
@@ -43,6 +45,7 @@ function App() {
         <Route exact path="/productItem/:id" component={productItem} />
         <Route exact path="/build" component={build} />
         <Route exact path="/dashboard" component={dashboard} />
+        <Route exact path="/history" component={history} />
         
       </Switch>
       <Footer />

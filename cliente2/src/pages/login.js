@@ -57,7 +57,7 @@ const login = (props) => {
                         alt=""
                         width="100"
                         height="100"
-                        class="d-inline-block align-text-top"
+                        className="d-inline-block align-text-top"
                     />
                 <h2>Log-In</h2>
                 <br/>
@@ -67,8 +67,8 @@ const login = (props) => {
                 <h5 className="hlogin">Contraseña</h5>
                 <input type="password" className="form-control" id="userPassword" />
                 <br/>
-                <div class="col-12">
-                   <button class="btn btn-primary col-6" onClick={loginUser} >Logearse</button>
+                <div className="col-12">
+                   <button className="btn btn-primary col-6" onClick={loginUser} >Logearse</button>
                 </div>
                 <br/>
             </div>
