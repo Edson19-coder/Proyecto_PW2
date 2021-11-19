@@ -16,5 +16,6 @@ api.post('/upload-image-prod/:id', [md_auth.ensureAuth, mad_upload], ProductCont
 api.get('/get-image-prod/:imageFile', ProductController.getImageFile);
 
 api.get('/getProductsIndex/:page?', ProductController.getProductsIndex);
+api.get('/getProductsCarrousel/:page?', ProductController.getProductsIndex);
 
 module.exports = api;

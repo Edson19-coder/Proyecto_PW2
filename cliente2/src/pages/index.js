@@ -7,9 +7,10 @@ import { GLOBAL } from "../api/GLOBAL";
 import PaginacionNosotros from "../components/PaginacionNosotros";
 
 import CardItem from "../components/CardItem";
-import { getProductsIndex } from "../api/ProductAPI";
+import { getProductsIndex, getProductsCarrousel } from "../api/ProductAPI";
 const Index = (props) => {
     const [products, setproduct] = useState([]);
+    const [products2, setproduct2] = useState([]);
     useEffect(()=>{
         getProductsIndex(1)
             .then(res => {
@@ -19,46 +20,32 @@ const Index = (props) => {
             .catch(err => {
                 console.log(err);
             });
+        getProductsCarrousel(1)
+            .then(res => {
+                console.log(res);
+                setproduct2(res.data["products"]);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }, []);
     return (
         <Fragment>
             <Container id="ContainerIndex">
                 <Carousel id="carouselindex">
-                    <Carousel.Item>
-                        <img
-                        className="d-block w-100 carousel-img"
-                        src="https://static2.cbrimages.com/wordpress/wp-content/uploads/2020/09/MdhoETzFvrzaKiqfuymfDA-e1599664003985.jpg"
-                        alt="First slide"
-                        />
-                        <Carousel.Caption>
-                        <h3>First slide label</h3>
-                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
+                    {products2.map((item) => (
+                        <Carousel.Item>
                         <img
                         className="d-block w-100 carousel-img" 
-                        src="https://static2.cbrimages.com/wordpress/wp-content/uploads/2020/09/MdhoETzFvrzaKiqfuymfDA-e1599664003985.jpg"
+                        src={`${GLOBAL.url}/get-image-prod/${item.image}`}
                         alt="Second slide"
                         />
-
                         <Carousel.Caption>
-                        <h3>Second slide label</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <h3>{item.cost} </h3>
+                        <p>{item.name}</p>
                         </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                        className="d-block w-100 carousel-img"
-                        src="https://static2.cbrimages.com/wordpress/wp-content/uploads/2020/09/MdhoETzFvrzaKiqfuymfDA-e1599664003985.jpg"
-                        alt="Third slide"
-                        />
-
-                        <Carousel.Caption>
-                        <h3>Third slide label</h3>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
+                        </Carousel.Item>
+                    ))}
                 </Carousel>      
                 <hr className="hr"></hr>                  
                 <h4 id="title">Lo mas popular</h4><label id="label">Determinado por los usuarios de List Factory</label>

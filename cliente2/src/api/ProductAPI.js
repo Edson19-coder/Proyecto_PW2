@@ -67,3 +67,12 @@ export const getProductsIndex = async (page) => {
         return error;
     }
 }
+export const getProductsCarrousel = async (page) => {
+    try {
+        const response = await axios.get(`/getProductsCarrousel/${page}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
