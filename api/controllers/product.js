@@ -380,16 +380,16 @@ function getSearchCategory(req, res) {
         var itemsPerPage = 5;
         GraphicCard.find()
           .sort("_id")
-          .paginate(page, itemsPerPage, (err, graphicCard, total) => {
+          .paginate(page, itemsPerPage, (err, graphiccard, total) => {
             if (err) return res.status(500).send({ message: "Error en la peticio" });
 
-            if (!graphicCard)
+            if (!graphiccard)
               return res
                 .status(404)
                 .send({ message: "No hay productos disponibles." });
 
             return res.status(200).send({
-              graphicCard,
+              graphiccard,
               total,
               pages: Math.ceil(total / itemsPerPage),
             });
