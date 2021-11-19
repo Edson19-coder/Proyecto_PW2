@@ -19,6 +19,7 @@ api.get('/getProductsIndex/:page?', ProductController.getProductsIndex);
 api.get('/getProductsCarrousel/:page?', ProductController.getProductsIndex);
 /////////////////////Search///////////////
 api.get('/getSearchCategory/:categorie?/:page?', ProductController.getSearchCategory);
+api.get('/getSearchWord/:word?/:page?', ProductController.getSearchWord);
 
 
 module.exports = api;

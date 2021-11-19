@@ -530,6 +530,34 @@ function getSearchCategory(req, res) {
     res.status(200).send({ message: "Envia todos los datos faltantes." });
   }
 }
+function getSearchWord(req, res) {
+  var page = 1;
+  var word;
+  if (req.params.page) {
+    page = req.params.page;
+  }
+  if (req.params.word) {
+    word = req.params.word;
+  }
+
+  var itemsPerPage = 5;
+  Product.find({ name: '%'+word+'%' })
+    .sort("_id")
+    .paginate(page, itemsPerPage, (err, products, total) => {
+      if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+      if (!products)
+        return res
+          .status(404)
+          .send({ message: "No hay productos disponibles." });
+
+      return res.status(200).send({
+        products,
+        total,
+        pages: Math.ceil(total / itemsPerPage),
+      });
+    });
+}
 
 function getProductByIdAndCategorie(req, res) {
   var params = req.params;
@@ -833,5 +861,6 @@ module.exports = {
   getImageFile,
   getProductsIndex,
   getProductsCarrousel,
-  getSearchCategory
+  getSearchCategory,
+  getSearchWord
 };
