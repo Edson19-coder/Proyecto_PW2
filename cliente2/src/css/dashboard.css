@@ -1,0 +1,164 @@
+.home-section .home-content {
+    position: relative;
+    padding-top: 5px;
+}
+
+.home-content .overview-boxes {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 0 20px;
+    flex-wrap: wrap;
+}
+
+.home-content .overview-boxes .box {
+    width: calc(100% /4 - 15px);
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: 15px 14px;
+    background: white;
+    border-radius: 2rem;
+    border-color: gray;
+    border-style: solid;
+    border-width: 5px;
+}
+
+.home-content .overview-boxes .box_topic {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.home-content .overview-boxes .number {
+    font-size: 35px;
+    font-weight: 500;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.overview-boxes .indicator .i {
+    height: 20px;
+    width: 20px;
+    background: #8FDACB;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.overview-boxes .box .cart {
+    font-size: 32px;
+    font-weight: 500;
+    height: 50px;
+    width: 50px;
+    background: #cce5ff;
+    color: #66b0ff;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.overview-boxes .box .money {
+    font-size: 32px;
+    font-weight: 500;
+    height: 50px;
+    width: 50px;
+    background: #2BD47D;
+    color: #C0F2D8;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.home-section .sales-boxes {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.home-section .sales-boxes .recent-sale {
+    width: 65%;
+    background: white;
+    border-radius: 12px;
+    box-sizing: 0 5px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.home-section .sales-boxes .sales-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-section .sales-boxes .box {
+    margin-right: 5px;
+}
+.home-section .sales-boxes .box .title {
+    font-size: 24px;
+    font-weight: 500;
+}
+.home-section .sales-boxes .box .title {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.home-section .sales-boxes .box .topic {
+    font-size: 20px;
+    font-weight: 500;
+    
+}
+
+.home-section .sales-boxes .box li {
+    list-style: none;
+    margin: 8px 0;
+}
+
+.sales-boxes .box li a {
+    color: black;
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+}
+.sales-boxes .button{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.sales-boxes .button a{
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    background: #0A2558;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.sales-boxes .button a:hover{
+    background: #0D3073;
+}
+
+.home-section .sales-boxes .top-sales {
+    width: 35%;
+    margin-left: 20px;
+    background: white;
+    box-sizing: 0 5px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 12px;
+}
+.sales-boxes .top-sales li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.sales-boxes .top-sales li a{
+    display: flex;
+    align-items: center;
+}
+.home-section .sales-boxes img{
+    margin-right: 8px;
+    height: 40px;
+    width: 40px;
+    border-radius: 4px;
+    object-fit: cover;
+}
