@@ -57,3 +57,13 @@ export const getImageProduct = async (image, token) => {
         return error;
     }
 }
+
+export const getProductsIndex = async (page) => {
+    try {
+        const response = await axios.get(`/getProductsIndex/${page}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
