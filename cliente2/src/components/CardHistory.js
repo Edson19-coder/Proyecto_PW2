@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card'
 
 const CardHistory = (props) => {
     const [isClick, setClick] = useState(false);
+    const dateVal = new Date(props.fecha*1000).toLocaleDateString('en-US');
     return (
         <div>
             <Card className="mb-10 cardSearch">
@@ -12,14 +13,16 @@ const CardHistory = (props) => {
                     </div>
                     <div className="col-md-8">
                     <Card.Body>
-                        <Card.Title ><span>{props.name}</span><span style={{float: 'right'}}>{props.price}$</span></Card.Title>
+                        <Card.Title ><span>{props.name}</span><span style={{float: 'right'}}>${props.price}</span></Card.Title>
                         <hr/>
                         <Card.Body>
-                        <Card.Text style={{fontSize: "25px"}} >Fecha Comprado: {props.fecha}</Card.Text>
-
+                            <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text>
                         </Card.Body>
                     </Card.Body>
                     </div>
+                    <Card.Footer>
+                        <center><Card.Text style={{fontSize: "15px"}} >Fecha Comprado: {dateVal}</Card.Text></center>
+                    </Card.Footer>
                 </div>
             </Card> 
             <br></br>
