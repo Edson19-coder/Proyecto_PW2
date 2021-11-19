@@ -8,7 +8,8 @@ var md_auth = require('../middlewares/authenticated');
 
 
 api.post('/saveBuilding', md_auth.ensureAuth, CartController.saveBuilding);
-api.delete('/delteBuilding/:cartId', md_auth.ensureAuth, CartController.deleteBuilding);
+api.delete('/deleteCart', md_auth.ensureAuth, CartController.deleteBuilding);
 api.get('/cart', md_auth.ensureAuth, CartController.getCart);
+api.delete('/deleteItemByUserIdAndProductId/:productId', md_auth.ensureAuth, CartController.deleteItemByUserIdAndProductId);
 
 module.exports = api;

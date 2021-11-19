@@ -13,15 +13,11 @@ const CardCart = (props) => {
                     </div>
                     <div className="col-md-8">
                     <Card.Body>
-                        <Card.Title ><span>{props.name}</span><span style={{float: 'right'}}>{props.price}$</span></Card.Title>
+                        <Card.Title ><span>{props.name}</span><span style={{float: 'right'}}>${props.price}</span></Card.Title>
                         <hr/>
-                        <Card.Text>Gaming enthusiasts are always looking for more performance to
-                        get the ultimate experience. Using multiple graphics cards in
-                        SLI or Crossfire is a great way to find out just how good it
-                        gets. MSI GAMING graphics cards fully support multi GPU
-                        technologies.</Card.Text>
+                        <Card.Text>{props.description}</Card.Text>
                         <Card.Body>
-                          <center><Button className="cardCartBtn col-6">Eliminar</Button></center>
+                          <center><Button className="cardCartBtn col-6" id={props.id} onClick={props.functionName}>Eliminar</Button></center>
                         </Card.Body>
                     </Card.Body>
                     </div>
