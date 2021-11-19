@@ -1,12 +1,28 @@
 import React from "react";
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 
 import CardSearch from "../components/CardSearch";
 import PaginacionNosotros from "../components/PaginacionNosotros";
+import { useParams } from "react-router-dom";
+import { getSearchCategory } from "../api/SearchAPI";
 
-const search = (props) => {
+
+const Search = (props) => {
+    let { category } = useParams();
+
+    useEffect(()=>{
+        getSearchCategory(category,1)
+            .then(res => {
+                console.log(res);
+                //setproduct(res.data["products"]);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
     return (
+        
         <Fragment>
             <Container id="" className="container-fluid">
                 <h4 id="title">Resultados</h4><label id="label">Resultados de busqueda</label>
@@ -26,4 +42,4 @@ const search = (props) => {
         </Fragment>
     );
 }
-export default search;
+export default Search;

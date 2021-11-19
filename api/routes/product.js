@@ -17,5 +17,8 @@ api.get('/get-image-prod/:imageFile', ProductController.getImageFile);
 
 api.get('/getProductsIndex/:page?', ProductController.getProductsIndex);
 api.get('/getProductsCarrousel/:page?', ProductController.getProductsIndex);
+/////////////////////Search///////////////
+api.get('/getSearchCategory/:categorie?/:page?', ProductController.getSearchCategory);
+
 
 module.exports = api;

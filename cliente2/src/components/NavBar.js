@@ -29,7 +29,7 @@ const NavBar = ( props ) => {
                 botoncito3 = document.getElementById("basic-nav-dropdown2");
                 botoncito3.style.display = "none";
     
-            }else if(loggedUser.role === "CLIENT"){
+            }else if(loggedUser.role === "CLIENTE"){
                 botoncito = document.getElementById("btnEntrar");
                 botoncito.style.display = "none";
                 botoncito2 = document.getElementById("btnRegistrar");
@@ -67,6 +67,7 @@ const NavBar = ( props ) => {
                     }  id="basic-nav-dropdown">
                     <NavDropdown.Item href="/cart">Carrito</NavDropdown.Item>
                     <NavDropdown.Item href="/history">Historial</NavDropdown.Item>
+                    <NavDropdown.Item href="/profile">Editar Perfil</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/dashboard">Dashboard</NavDropdown.Item>
                     <NavDropdown.Item href="/CreateProduct">Crear Producto</NavDropdown.Item>
@@ -83,6 +84,7 @@ const NavBar = ( props ) => {
                     }  id="basic-nav-dropdown2">
                     <NavDropdown.Item href="/cart">Carrito</NavDropdown.Item>
                     <NavDropdown.Item href="/history">Historial</NavDropdown.Item>
+                    <NavDropdown.Item href="/profile">Editar Perfil</NavDropdown.Item>
                     </NavDropdown>
                     <Button id="btnEntrar" variant="light" href="/login">LogIn</Button>
                     <Button id="btnRegistrar" variant="outline-light" href="/register">SignIn</Button>
@@ -92,13 +94,13 @@ const NavBar = ( props ) => {
             <Navbar className="navbar-expand-lg container-fluid " variant='dark' expand="lg">
                 <Container>
                     <div className="btn-group me-12 col-12">
-                        <Button className="NavbarBtn" href="">Gabinete</Button>
-                        <Button className="NavbarBtn" href="">Tarjeta Grafica</Button>
-                        <Button className="NavbarBtn" href="/build">MotherBoard</Button>
-                        <Button className="NavbarBtn" href="/createProduct">Fuente Poder</Button>
-                        <Button className="NavbarBtn" href="/profile">Procesador</Button>
-                        <Button className="NavbarBtn" href="/profile">Almacenamiento</Button>
-                        <Button className="NavbarBtn" href="/profile">RAM</Button>
+                        <Button className="NavbarBtn" href="/search/CABINET">Gabinete</Button>
+                        <Button className="NavbarBtn" href="/search/GRAPHICCARD">Tarjeta Grafica</Button>
+                        <Button className="NavbarBtn" href="/search/MOTHERBOARD">MotherBoard</Button>
+                        <Button className="NavbarBtn" href="/search/POWERSUPPLY">Fuente Poder</Button>
+                        <Button className="NavbarBtn" href="/search/PROCESSOR">Procesador</Button>
+                        <Button className="NavbarBtn" href="/search/STORAGE">Almacenamiento</Button>
+                        <Button className="NavbarBtn" href="/search/RAM">RAM</Button>
                         <Button className="NavbarBtn" href="/build">Build</Button>
                     </div>
                 </Container>

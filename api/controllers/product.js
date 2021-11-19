@@ -341,6 +341,196 @@ function getProductsCarrousel(req, res) {
     });
 }
 
+function getSearchCategory(req, res) {
+  var params = req.params;
+
+  if (params.categorie) {
+    switch (params.categorie) {
+      case "CABINET":
+        var page = 1;
+        if (req.params.page) {
+          page = req.params.page;
+        }
+
+        var itemsPerPage = 5;
+        Cabinet.find()
+          .sort("_id")
+          .paginate(page, itemsPerPage, (err, cabinet, total) => {
+            if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+            if (!cabinet)
+              return res
+                .status(404)
+                .send({ message: "No hay productos disponibles." });
+
+            return res.status(200).send({
+              cabinet,
+              total,
+              pages: Math.ceil(total / itemsPerPage),
+            });
+          });
+      break;
+
+      case "GRAPHICCARD":
+        var page = 1;
+        if (req.params.page) {
+          page = req.params.page;
+        }
+
+        var itemsPerPage = 5;
+        GraphicCard.find()
+          .sort("_id")
+          .paginate(page, itemsPerPage, (err, graphicCard, total) => {
+            if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+            if (!graphicCard)
+              return res
+                .status(404)
+                .send({ message: "No hay productos disponibles." });
+
+            return res.status(200).send({
+              graphicCard,
+              total,
+              pages: Math.ceil(total / itemsPerPage),
+            });
+          });
+      break;
+
+      case "MOTHERBOARD":
+        var page = 1;
+        if (req.params.page) {
+          page = req.params.page;
+        }
+
+        var itemsPerPage = 5;
+        Motherboard.find()
+          .sort("_id")
+          .paginate(page, itemsPerPage, (err, motherboard, total) => {
+            if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+            if (!motherboard)
+              return res
+                .status(404)
+                .send({ message: "No hay productos disponibles." });
+
+            return res.status(200).send({
+              motherboard,
+              total,
+              pages: Math.ceil(total / itemsPerPage),
+            });
+          });
+      break;
+
+      case "POWERSUPPLY":
+        var page = 1;
+        if (req.params.page) {
+          page = req.params.page;
+        }
+
+        var itemsPerPage = 5;
+        Powersupply.find()
+          .sort("_id")
+          .paginate(page, itemsPerPage, (err, powersupply, total) => {
+            if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+            if (!powersupply)
+              return res
+                .status(404)
+                .send({ message: "No hay productos disponibles." });
+
+            return res.status(200).send({
+              powersupply,
+              total,
+              pages: Math.ceil(total / itemsPerPage),
+            });
+          });
+      break;
+
+      case "PROCESSOR":
+        var page = 1;
+        if (req.params.page) {
+          page = req.params.page;
+        }
+
+        var itemsPerPage = 5;
+        Processor.find()
+          .sort("_id")
+          .paginate(page, itemsPerPage, (err, processor, total) => {
+            if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+            if (!processor)
+              return res
+                .status(404)
+                .send({ message: "No hay productos disponibles." });
+
+            return res.status(200).send({
+              processor,
+              total,
+              pages: Math.ceil(total / itemsPerPage),
+            });
+          });
+      break;
+
+      case "RAM":
+        var page = 1;
+        if (req.params.page) {
+          page = req.params.page;
+        }
+
+        var itemsPerPage = 5;
+        Ram.find()
+          .sort("_id")
+          .paginate(page, itemsPerPage, (err, ram, total) => {
+            if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+            if (!ram)
+              return res
+                .status(404)
+                .send({ message: "No hay productos disponibles." });
+
+            return res.status(200).send({
+              ram,
+              total,
+              pages: Math.ceil(total / itemsPerPage),
+            });
+          });
+      break;
+
+      case "STORAGE":
+        var page = 1;
+        if (req.params.page) {
+          page = req.params.page;
+        }
+
+        var itemsPerPage = 5;
+        Storage.find()
+          .sort("_id")
+          .paginate(page, itemsPerPage, (err, storage, total) => {
+            if (err) return res.status(500).send({ message: "Error en la peticio" });
+
+            if (!storage)
+              return res
+                .status(404)
+                .send({ message: "No hay productos disponibles." });
+
+            return res.status(200).send({
+              storage,
+              total,
+              pages: Math.ceil(total / itemsPerPage),
+            });
+          });
+      break;
+
+      default:
+        return res.status(404).send("Petición no valida.");
+        break;
+    }
+  } else {
+    console.log("Envia todos los datos faltantes.");
+    res.status(200).send({ message: "Envia todos los datos faltantes." });
+  }
+}
+
 function getProductByIdAndCategorie(req, res) {
   var params = req.params;
 
@@ -642,5 +832,6 @@ module.exports = {
   uploadImage,
   getImageFile,
   getProductsIndex,
-  getProductsCarrousel
+  getProductsCarrousel,
+  getSearchCategory
 };
