@@ -29,7 +29,7 @@ const NavBar = ( props ) => {
                 botoncito3 = document.getElementById("basic-nav-dropdown2");
                 botoncito3.style.display = "none";
     
-            }else if(loggedUser.role === "CLIENT"){
+            }else if(loggedUser.role === "CLIENTE"){
                 botoncito = document.getElementById("btnEntrar");
                 botoncito.style.display = "none";
                 botoncito2 = document.getElementById("btnRegistrar");

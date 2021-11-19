@@ -298,7 +298,7 @@ function getProductsIndex(req, res) {
     page = req.params.page;
   }
 
-  var itemsPerPage = 5;
+  var itemsPerPage = 8;
   Product.find()
     .sort("_id")
     .paginate(page, itemsPerPage, (err, products, total) => {
