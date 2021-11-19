@@ -14,3 +14,17 @@ export const createHistory = (buyCartData, token) => {
         return error;
     }
 }
+
+export const getHistory = async (token) => {
+    try {
+        const response = await axios.get("/history", {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}

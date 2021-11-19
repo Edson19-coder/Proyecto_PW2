@@ -104,9 +104,27 @@ function getCart(req, res) {
 
 }
 
+function getTotalCartsActive(req, res) {
+  Cart.count((err, counter) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send({message: 'Error al obtener la cantidad de carrtios activos.'});
+    }
+
+    if(!counter) {
+      console.log("Sin carritos registrados.")
+      return res.status(404).send({message: 'Sin carritos registrados.'});
+    }
+
+    console.log(counter);
+    return res.status(200).send({totalActiveCarts: counter});
+  });
+}
+
 module.exports = {
     saveBuilding,
     deleteBuilding,
     getCart, 
-    deleteItemByUserIdAndProductId
+    deleteItemByUserIdAndProductId,
+    getTotalCartsActive
 };
