@@ -10,6 +10,13 @@ const SignOut = async () => {
     window.localStorage.removeItem('loggedUser');
     window.location = "/index";
 }
+const SearchProd = async () => {
+    var botoncito = document.getElementById("BusquedaNavbar").value;
+
+    alert(botoncito);
+    //var response = await getSearchWord(SearchWord)
+}
+
 const NavBar = ( props ) => {
     var loggedUser;
     const [loginInfo, setproduct2] = useState([]);
@@ -54,7 +61,7 @@ const NavBar = ( props ) => {
                 <Container>
                     <Navbar.Brand href="/">E-commerce</Navbar.Brand>
                     <FormControl id="BusquedaNavbar" placeholder="Buscar..." aria-label="Search" aria-describedby="inputGroup-sizing-sm"/>
-                    <a href="/search"><MdSearch className="search-icon" /></a>
+                    <a onClick={SearchProd}><MdSearch className="search-icon" /></a>
                     <NavDropdown
                      title={
                                  <img
