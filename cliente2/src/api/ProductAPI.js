@@ -76,3 +76,17 @@ export const getProductsCarrousel = async (page) => {
         return error;
     }
 }
+
+export const getProductById = async (productId, token) => {
+    try {
+        const response = await axios.get(`/getProductById/${productId}`, {
+            headers: {
+                Authorization: token
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}

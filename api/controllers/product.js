@@ -20,6 +20,7 @@ function createProduct(req, res) {
     product.image = 'null';
     product.cost = params.cost;
     product.categorie = params.categorie;
+    product.active = true;
 
     product.save((err, productStored) => {
       if(err) {
@@ -639,6 +640,44 @@ function getProductByIdAndCategorie(req, res) {
   }
 }
 
+function getProductById(req, res) {
+  if(req.params.productId) {
+    Product.findById(req.params.productId, (err, product) => {
+      if(err) {
+        console.log(err);
+        return res.status(500).send({message: 'Error al obtener el producto.'});
+      }
+  
+      if(!product) {
+        console.log("El producto no existe.")
+        return res.status(404).send({message: 'El producto no existe.'});
+      }
+  
+      console.log(product);
+      return res.status(200).send(product);
+    });
+  } else {
+
+  }
+}
+
+function getTotalActiveProducts(req, res) {
+  Product.find({active: true}).count((err, counter) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send({message: 'Error al obtener la cantidad de productos registrados.'});
+    }
+
+    if(!counter) {
+      console.log("Sin productos registrados.")
+      return res.status(404).send({message: 'Sin productos registrados.'});
+    }
+
+    console.log(counter);
+    return res.status(200).send({totalActiveProducts: counter});
+  });
+}
+
 //SUBIR IMAGENES
 function uploadImage(req, res) {
 	var productId = req.params.id;
@@ -833,5 +872,7 @@ module.exports = {
   getImageFile,
   getProductsIndex,
   getProductsCarrousel,
-  getSearchCategory
+  getSearchCategory,
+  getTotalActiveProducts,
+  getProductById
 };
