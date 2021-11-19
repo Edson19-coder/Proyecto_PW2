@@ -38,7 +38,7 @@ function App() {
         <Route exact path="/index" component={index} />
         <Route exact path="/login" component={login} />
         <Route exact path="/register" component={register} />
-        <Route exact path="/search" component={search} />
+        <Route exact path="/search/:category" component={search} />
         <Route exact path="/profile" component={profile} />
         <Route exact path="/cart" component={cart} />
         <Route exact path="/CreateProduct" component={CreateProduct} />
