@@ -9,6 +9,15 @@ export const getSearchCategory = async (categorie,page) => {
         return error;
     }
 }
+export const getSearchWord = async (word,page) => {
+    try {
+        const response = await axios.get(`/getSearchWord/${word}/${page}`);
+        return response;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
 
 
 
