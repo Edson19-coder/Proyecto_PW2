@@ -43,29 +43,43 @@ function saveBuilding(req, res) {
       res.status(200).send({ message: "Envia todos los datos faltantes." });
     }
 }
-  
+
 function deleteBuilding(req, res) {
   
-    var params = req.params;
+  Cart.find({userId: req.user.sub}).remove(err => {
   
-    if(params.cartId) {
-  
-      Cart.findById(params.cartId).remove(err => {
-  
-        if(err) {
-          console.log(err);
-          return res.status(500).send({message: 'Error al borrar el Carrito.'});
-        }
-  
-        console.log("Carrito borrado correctamente.");
-        return res.status(200).send({message: 'Carrito borrado correctamente.'});
-  
-      });
-  
-    } else {
-      console.log("Envia todos los datos faltantes.");
-      res.status(200).send({ message: "Envia todos los datos faltantes." });
+    if(err) {
+      console.log(err);
+      return res.status(500).send({message: 'Error al borrar el Carrito.'});
     }
+
+    console.log("Carrito borrado correctamente.");
+    return res.status(200).send({message: 'Carrito borrado correctamente.'});
+
+  });
+
+}
+
+function deleteItemByUserIdAndProductId(req, res) {
+
+  console.log(req.user.sub);
+  console.log(req.params.productId);
+
+  if(req.params.productId) {
+    Cart.updateOne({userId: req.user.sub}, { $pull: {products : req.params.productId }}, (err, resp) => {
+    
+      if (err) {
+        console.log(err);
+        return res.status(500).send({ message: "Error en la petición deleteItemByUserIdAndProductId()" });
+      }
+  
+      console.log(resp);
+      return res.status(200).send({message: 'Elemento borrado correctamente.'});
+    });
+  } else {
+    console.log("Envia todos los datos faltantes.");
+    res.status(200).send({ message: "Envia todos los datos faltantes." });
+  }
   
 }
 
@@ -93,5 +107,6 @@ function getCart(req, res) {
 module.exports = {
     saveBuilding,
     deleteBuilding,
-    getCart
+    getCart, 
+    deleteItemByUserIdAndProductId
 };
