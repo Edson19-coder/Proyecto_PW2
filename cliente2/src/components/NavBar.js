@@ -13,8 +13,7 @@ const SignOut = async () => {
 const SearchProd = async () => {
     var botoncito = document.getElementById("BusquedaNavbar").value;
 
-    alert(botoncito);
-    //var response = await getSearchWord(SearchWord)
+    window.location = "/search2/"+botoncito;
 }
 
 const NavBar = ( props ) => {
