@@ -229,22 +229,24 @@ const addProduct = async () => {
 
     var responseImage = null;
 
-    if(response.data["message"].productId != undefined) {
-      responseImage = await uploadImage(response.data["message"].productId, formData, loggedUser.token);
-    }
-
-    if(response && responseImage) {
-      var message = response.data["message"];
-
-      if(response.status == 200) {
-          message = "Producto registrado correctamente.!";
+    if(response != null) {
+      if(response.data["message"].productId != undefined) {
+        responseImage = await uploadImage(response.data["message"].productId, formData, loggedUser.token);
       }
-
-      createNotification(response.status, message, true, "/");
-    } else {
-      createNotification(500, "Error al crear el producto", false, "");
+  
+      if(response && responseImage) {
+        var message = response.data["message"];
+  
+        if(response.status == 200) {
+            message = "Producto registrado correctamente.!";
+        }
+  
+        createNotification(response.status, message, true, "/");
+      } else {
+        createNotification(500, "Error al crear el producto", false, "");
+      }
     }
-
+    
   }
   
 }
