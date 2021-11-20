@@ -71,7 +71,7 @@ const NavBar = ( props ) => {
         <div>
             <Navbar className="LogNavbar" variant='dark' expand="lg">
                 <Container>
-                    <Navbar.Brand href="/">E-commerce</Navbar.Brand>
+                    <Navbar.Brand href="/">E-Kong</Navbar.Brand>
                     <FormControl id="BusquedaNavbar" placeholder="Buscar..." aria-label="Search" aria-describedby="inputGroup-sizing-sm"/>
                     <a onClick={SearchProd}><MdSearch className="search-icon" /></a>
                     <NavDropdown
