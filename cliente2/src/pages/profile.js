@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Container, Button } from "react-bootstrap";
 import InputGroup from 'react-bootstrap/InputGroup'
 import { getUser, updateUser, uploadImage } from "../api/UserAPI";
+import { createAddress, editAddress, getAddress } from "../api/AddressAPI";
 import { createNotification } from "../services/notifications";
 
 import { GLOBAL } from "../api/GLOBAL";
@@ -14,12 +15,13 @@ var imageUser = loggedUser.image;
 }
 
 const Profile = (props) => {
-
+    var banderaAdress;
     const [user, setUser] = useState([]);
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedUser');
+        var loggedUser;
         if(loggedUserJSON) {
-            var loggedUser = JSON.parse(loggedUserJSON);
+            loggedUser = JSON.parse(loggedUserJSON);
         }
 
         getUser(loggedUser.token).then(res => {
@@ -34,9 +36,70 @@ const Profile = (props) => {
             console.log(err);
         });
 
+        getAddress(loggedUser.token).then(res => {
+            if(res.data.length !== 0) {
+                banderaAdress=1;
+                document.getElementById("adr1").value = res.data[0].calle;
+                document.getElementById("adr2").value = res.data[0].numExt;
+                document.getElementById("adr3").value = res.data[0].colonia;
+                document.getElementById("adr4").value = res.data[0].codPostal;
+            } 
+        }).catch(err => {
+            console.log(err);
+        });
+
         
     }, [])
 
+    const upAdressUser = () => {
+        var pcalle = document.getElementById("adr1").value;
+        var pnumero = document.getElementById("adr2").value;
+        var pcolonia = document.getElementById("adr3").value;
+        var pcodigo = document.getElementById("adr4").value;
+
+        if(pcalle != "" && pnumero != "" && pcolonia != "" && pcodigo != "") {
+            
+            const loggedUserJSON = window.localStorage.getItem('loggedUser');
+            if(loggedUserJSON) {
+                var loggedUser = JSON.parse(loggedUserJSON);
+            }
+            
+            var userAddressData = {
+                calle: pcalle, 
+                numExt: pnumero,
+                colonia: pcolonia,
+                codPostal: pcodigo
+            }
+            if(banderaAdress !== 1){
+                createAddress(userAddressData, loggedUser.token).then(res => {
+                    if(res != undefined) {
+    
+                        createNotification(200, "Direccion actualizada correctamente", true, "/profile");
+                        console.log(res);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })    
+
+            }else{
+                console.log(userAddressData);
+                editAddress(userAddressData, loggedUser.token).then(res => {
+                    console.log(res);
+                     if(res != undefined) {
+    
+                         createNotification(200, "Direccion actualizada correctamente", true, "/profile");
+                         console.log(res);
+                     }
+                }).catch(err => {
+                    console.log(err);
+                })    
+            }
+
+        } else {
+            createNotification(201, "Ingresa los datos faltantes.!", false, "");
+        }
+
+    };
     const upUser = () => {
         var userName = document.getElementById("userName").value;
         var userEmail = document.getElementById("userEmail").value;
@@ -217,7 +280,7 @@ const Profile = (props) => {
                                 <div className="row justify-content-center">
                                     <div className="col-10">
                                     <InputGroup className="mb-3">
-                                        <input type="text" className="form-control" placeholder="Juan"/>
+                                        <input id="adr1" type="text" className="form-control" placeholder="Calle"/>
                                     </InputGroup>
                                     </div>
                                 </div>
@@ -225,7 +288,7 @@ const Profile = (props) => {
                                 <div className="row justify-content-center">
                                     <div className="col-10">
                                     <InputGroup>
-                                        <input type="number" className="form-control" placeholder="Juan"/>
+                                        <input id="adr2" type="number" className="form-control" placeholder="254"/>
                                     </InputGroup>
                                     </div>
                                 </div>
@@ -234,7 +297,7 @@ const Profile = (props) => {
                                 <div className="row justify-content-center">
                                     <div className="col-10">
                                     <InputGroup>
-                                        <input type="text" className="form-control" placeholder="Juan"/>
+                                        <input id="adr3" type="text" className="form-control" placeholder="San Benito"/>
                                     </InputGroup>
                                     </div>
                                 </div>
@@ -243,14 +306,14 @@ const Profile = (props) => {
                                 <div className="row justify-content-center">
                                     <div className="col-10">
                                     <InputGroup>
-                                        <input type="number" className="form-control" placeholder="Juan"/>
+                                        <input id="adr4" type="number" className="form-control" placeholder="123456"/>
                                     </InputGroup>
                                     </div>
                                 </div>
                                 <br/>
                                 <div className="row justify-content-center">
                                     <div className="col-4">
-                                        <Button id="editBtn" className="col-12"> Editar </Button>
+                                        <Button id="editBtnAddress" onClick={upAdressUser} className="col-12"> Editar </Button>
                                     </div>
                                 </div>
                                 <br/>

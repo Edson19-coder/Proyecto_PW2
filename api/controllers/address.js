@@ -82,12 +82,12 @@ function updateAddress(req, res) {
         updateAddress.codPostal = params.codPostal;
         updateAddress.userId = req.user.sub;
         updateAddress.default = true;
-
+        console.log(updateAddress);
         Address.findOneAndUpdate(
             {$and: [ {userId: req.user.sub}, {default: true} ] },
-            {$set: updateAddress},
+            {$set: {calle: params.calle, numExt: params.numExt, colonia: params.colonia, codPostal: params.codPostal}},
             (err, result) => {
-                
+             
                 if(err) {
                     console.log(err);
                     return res.status(500).send({message: 'Error al actualizar los datos del default.'})
