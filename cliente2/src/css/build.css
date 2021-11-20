@@ -1,0 +1,26 @@
+#SpaceBuild{
+    background:linear-gradient(darkcyan,rgb(0, 125, 175)) ;
+    margin: 10px;
+    border-radius: 1rem;
+}
+
+.accordion-button{
+    background-color: darkslategray;
+    color: floralwhite;
+    border-radius: 1rem;
+}
+
+
+.accordion-body{
+    background-color: rgba(108, 180, 190, 0.5);
+}
+
+#floatingSelect{
+    background-color: rgb(55, 88, 116);
+    color: white;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}

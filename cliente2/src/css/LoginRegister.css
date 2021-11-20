@@ -1,0 +1,19 @@
+body {
+    background: linear-gradient(to right, #020015, #0D8060 );
+}
+#loginDiv{
+    background-color: #e6e6e6;
+    border: black 5px solid;
+    border-radius: 1em;
+}
+.hlogin{
+    text-align: left;
+}
+#registerDiv{
+    background-color: #e6e6e6;
+    border: black 5px solid;
+    border-radius: 1em;
+}
+.hregister{
+    text-align: left;
+}

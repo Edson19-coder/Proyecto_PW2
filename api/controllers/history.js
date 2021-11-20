@@ -1,3 +1,5 @@
+var Product = require("../models/product");
+var User = require("../models/user");
 var History = require("../models/history");
 
 var moment = require("moment");
@@ -6,19 +8,10 @@ function saveHistory(req, res) {
     var params = req.body;
     var history = new History();
   
-    if (
-      params.motherboardId &&
-      params.processorId &&
-      params.graphiccardId &&
-      params.ramId &&
-      params.storageId
-    ) {
+    if (params.product) {
+      
       history.userId = req.user.sub;
-      history.motherboardId = params.motherboardId;
-      history.processorId = params.processorId;
-      history.graphiccardId = params.graphiccardId;
-      history.ramId = params.ramId;
-      history.storageId = params.storageId;
+      history.product = params.product;
       history.date = moment().unix();
   
       history.save((err, historyStored) => {
@@ -45,7 +38,7 @@ function saveHistory(req, res) {
 
 function getHistory(req, res) {
 
-  History.find({userId: req.user.sub}).exec((err, histories) => {
+  History.find({userId: req.user.sub}).populate({path:'product'}).exec((err, histories) => {
 
     if(err) {
       console.log(err);
@@ -64,7 +57,90 @@ function getHistory(req, res) {
 
 }
 
+function getReportSales(req, res) {
+
+  History.find().sort('-date').populate({path:'product'}).populate({path:'userId'}).limit(6).exec((err, histories) => {
+
+    if(err) {
+      console.log(err);
+      return res.status(500).send({message: 'Error al obtener el report.'});
+    }
+
+    if(!histories) {
+      console.log("El report no existe.")
+      return res.status(404).send({message: 'El report no existe.'});
+    }
+
+    console.log(histories);
+    return res.status(200).send(histories);
+
+  });
+
+}
+
+function getTotalSales(req, res) {
+
+  History.find().sort('-date').populate({path:'product'}).exec((err, histories) => {
+
+    if(err) {
+      console.log(err);
+      return res.status(500).send({message: 'Error al obtener el report.'});
+    }
+
+    if(!histories) {
+      console.log("El report no existe.")
+      return res.status(404).send({message: 'El report no existe.'});
+    }
+
+    var totalSales = 0;
+
+    histories.forEach(element => {
+      totalSales = totalSales + element.product.cost;
+    });
+
+    return res.status(200).send({totalSales: totalSales});
+
+  });
+
+}
+
+function getReportTopSellingProducts(req, res) {
+
+    const aggregatorOpts = [
+      {
+        $unwind: "$product",
+      },
+      {
+        $group: {
+          _id: "$product",
+          count: { $sum: 1 },
+        },
+      }
+    ];
+
+  History.aggregate(aggregatorOpts).sort('-count').limit(6).exec((err, resp) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send({message: 'Error al obtener el report.'});
+    }
+
+    if(!resp) {
+      console.log("El report no existe.")
+      return res.status(404).send({message: 'El report no existe.'});
+    }
+
+    console.log(resp)
+    return res.status(200).send(resp);
+    
+  });
+
+}
+
+
 module.exports = {
     saveHistory,
-    getHistory
+    getHistory, 
+    getReportSales, 
+    getTotalSales,
+    getReportTopSellingProducts
 };

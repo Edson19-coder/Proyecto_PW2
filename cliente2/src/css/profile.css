@@ -1,0 +1,31 @@
+.divPerfil{
+    background-color: rgb(215, 218, 219);
+    border: black 5px solid;
+    border-radius: 1em;
+}
+#imgBtnProfile{
+    margin-top: 2rem;
+    border-radius: 1rem;
+    background-color: rgba(158, 108, 108, 0);
+    border-color: gray;
+    color: white;
+    border-inline-color: gray;  
+}
+#imgBtnProfile, #editBtn{
+    margin-top: 2rem;
+    border-radius: 1rem;
+    background-color: rgba(158, 108, 108, 0);
+    border-color: gray;
+    color: white;
+    border-inline-color: gray;  
+}
+#imgBtnProfile:hover, #editBtn:hover{
+    margin-top: 2rem;
+    border-radius: 1rem;
+    background-color: whitesmoke;
+    color: black;
+    border-color: gray;
+    border-inline-color: gray;}
+.hProfile{
+    color: white;
+}
