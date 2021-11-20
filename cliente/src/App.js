@@ -1,31 +1,56 @@
-import './App.css';
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import Home from './components/Home'; //
-import Login from './components/Login'; //
-import Register from './components/Register'; //
-import Carrito from './components/Carrito'; //
-import Busqueda from './components/Busqueda'; //
-import Producto from './components/Producto'; //
-import ABCProduct from './components/ABCProduct'; //
-import Perfil from './components/Perfil'; //
-import Building from './components/Building'; //
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+//Pages
+import index from './pages/index';
+import login from './pages/login';
+import register from './pages/register';
+import search from './pages/search';
+import search2 from './pages/search2';
+import profile from './pages/profile';
+import productItem from './pages/productItem';
+import cart from './pages/cart';
+import CreateProduct from './pages/createProduct';
+import build from './pages/build';
+import dashboard from './pages/dashboard';
+import history from './pages/history';
+
+//Components
+import NavBar from "../src/components/NavBar";
+import Footer from "../src/components/Footer";
+//CSS
+import '../src/css/index.css';
+import '../src/css/search.css';
+import '../src/css/LoginRegister.css';
+import '../src/css/profile.css';
+import '../src/css/productItem.css';
+import '../src/css/cart.css';
+import '../src/css/createProduct.css';
+import '../src/css/build.css';
+import '../src/css/dashboard.css';
 
 function App() {
   return (
     
     <Router>
+      <NavBar />
+      <hr className="hr"></hr>      
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/Login" component={Login} />
-        <Route exact path="/Register" component={Register} />
-        <Route exact path="/Carrito" component={Carrito} />
-        <Route exact path="/Busqueda" component={Busqueda} />
-        <Route exact path="/Producto" component={Producto} />
-        <Route exact path="/ABCProduct" component={ABCProduct} />
-        <Route exact path="/Building" component={Building} />
-        <Route exact path="/Perfil" component={Perfil} />
+        <Route exact path="/" component={index} />
+        <Route exact path="/index" component={index} />
+        <Route exact path="/login" component={login} />
+        <Route exact path="/register" component={register} />
+        <Route exact path="/search/:category" component={search} />
+        <Route exact path="/search2/:searchWord" component={search2} />
+        <Route exact path="/profile" component={profile} />
+        <Route exact path="/cart" component={cart} />
+        <Route exact path="/CreateProduct" component={CreateProduct} />
+        <Route exact path="/productItem/:productId" component={productItem} />
+        <Route exact path="/build" component={build} />
+        <Route exact path="/dashboard" component={dashboard} />
+        <Route exact path="/history" component={history} />
         
       </Switch>
+      <Footer />
     </Router>
     
   );

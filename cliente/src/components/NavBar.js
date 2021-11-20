@@ -1,65 +1,131 @@
 import React from 'react'
-import 'bootstrap/dist/css/bootstrap.css'
-import { Navbar } from 'react-bootstrap'
+import { useState, useEffect } from "react";
 
-const divStyle = {   backgroundColor: '#8b8e8f'};
-const navStyle = {   backgroundColor: '#588eb4'};
-const navStyle2 = {   backgroundColor: '#8b8e8f00'};
-const btnStyle = {
-    marginRight: '.1rem',
-    marginLleft: '.1rem',
-    backgroundColor: 'darkblue'
-};
+import { Navbar, Container, FormControl, Button, NavDropdown } from "react-bootstrap";
+import { MdSearch } from 'react-icons/md';
+import { GLOBAL } from "../api/GLOBAL";
 
-export default function NavBar() {
+
+
+const loggedUserJSON = window.localStorage.getItem('loggedUser');
+
+var imageUser = "defaul.jpg";
+
+if(loggedUserJSON != undefined) {
+    var loggedUser = JSON.parse(loggedUserJSON);
+    imageUser = loggedUser.image;
+}
+
+const SignOut = async () => {
+    window.localStorage.removeItem('loggedUser');
+    window.location = "/index";
+}
+const SearchProd = async () => {
+    var botoncito = document.getElementById("BusquedaNavbar").value;
+
+    window.location = "/search2/"+botoncito;
+}
+
+const NavBar = ( props ) => {
+    var loggedUser;
+    const [loginInfo, setproduct2] = useState([]);
+    useEffect(()=>{
+        const loggedUserJSON = window.localStorage.getItem('loggedUser');
+        if(loggedUserJSON) {
+            loggedUser = JSON.parse(loggedUserJSON);
+            var botoncito;
+            var botoncito2;
+            var botoncito3;
+
+
+            if(loggedUser.role === "ADMINISTRADOR"){
+                botoncito = document.getElementById("btnEntrar");
+                botoncito.style.display = "none";
+                botoncito2 = document.getElementById("btnRegistrar");
+                botoncito2.style.display = "none";
+                botoncito3 = document.getElementById("basic-nav-dropdown2");
+                botoncito3.style.display = "none";
+    
+            }else if(loggedUser.role === "CLIENTE"){
+                botoncito = document.getElementById("btnEntrar");
+                botoncito.style.display = "none";
+                botoncito2 = document.getElementById("btnRegistrar");
+                botoncito2.style.display = "none";
+                botoncito3 = document.getElementById("basic-nav-dropdown");
+                botoncito3.style.display = "none";
+            }
+    
+        }else{
+            botoncito = document.getElementById("basic-nav-dropdown");
+            botoncito.style.display = "none";
+            botoncito2 = document.getElementById("basic-nav-dropdown2");
+            botoncito2.style.display = "none";
+            botoncito3 = document.getElementById("btnCerrarSesion");
+            botoncito3.style.display = "none";
+            var botoncito4 = document.getElementById("btnBuilding");
+            botoncito4.style.display = "none";
+        }
+        console.log(loggedUser);
+    }, []);
     return (
-        <div className="NavBar" style={divStyle} sticky="top">
-            <Navbar style={navStyle} >
-                <div className="container-fluid">
-                    <a className="navbar-brand col-4">
-                    <img src="https://art.ngfiles.com/images/400000/400612_theiyoume_gorilla-head.png?f1453329574" alt=""
-                        width="30" height="24" className="d-inline-block align-text-top" />
-                        E-Commerce
-                    </a>
-                    <div className="collapse navbar-collapse ">
-                    <form className="d-flex col-10 ">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-success" type="submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search"
-                            viewBox="0 0 16 16">
-                            <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                        </svg>
-                        </button>
-                    </form>
-                    </div>
-                    <div className="col-1">
-                        <img
-                            src="https://images.creativemarket.com/0.1.0/ps/1441527/1160/772/m1/fpnw/wm0/businessman-avatar-icon-01-.jpg?1468234792&s=e3a468692e15e93a2056bd848193e97a"
-                            alt="Responsive Circle" width="30" height="30"
-                            className="d-inline-block align-text-top rounded-circle nav-item" 
-                        />
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart nav-item"  href="/Carrito"
-                            viewBox="0 0 16 16">
-                            <path
-                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                        </svg>
-                    </div>
-                </div>
+        <div>
+            <Navbar className="LogNavbar" variant='dark' expand="lg">
+                <Container>
+                    <Navbar.Brand href="/">E-commerce</Navbar.Brand>
+                    <FormControl id="BusquedaNavbar" placeholder="Buscar..." aria-label="Search" aria-describedby="inputGroup-sizing-sm"/>
+                    <a onClick={SearchProd}><MdSearch className="search-icon" /></a>
+                    <NavDropdown
+                     title={
+                                 <img
+                                 src={`${GLOBAL.url}/get-image-user/${imageUser}`}
+                                 alt="Responsive Circle Image"
+                                 id="pic1"
+                                 style={{width:'30px', height:'30px'}}
+                                 className="d-inline-block align-text-top rounded-circle nav-item"
+                               />
+                    }  id="basic-nav-dropdown">
+                    <NavDropdown.Item href="/cart">Carrito</NavDropdown.Item>
+                    <NavDropdown.Item href="/history">Historial</NavDropdown.Item>
+                    <NavDropdown.Item href="/profile">Editar Perfil</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/dashboard">Dashboard</NavDropdown.Item>
+                    <NavDropdown.Item href="/CreateProduct">Crear Producto</NavDropdown.Item>
+                    </NavDropdown>
+                    <NavDropdown
+                     title={
+                                 <img
+                                //  src={`${GLOBAL.url}/get-image-prod/${loggedUser.image}`}
+                                src={`${GLOBAL.url}/get-image-user/${imageUser}`}
+                                 alt="Responsive Circle Image"
+                                 style={{width:'30px', height:'30px'}}
+                                 className="d-inline-block align-text-top rounded-circle nav-item"
+                               />
+                    }  id="basic-nav-dropdown2">
+                    <NavDropdown.Item href="/cart">Carrito</NavDropdown.Item>
+                    <NavDropdown.Item href="/history">Historial</NavDropdown.Item>
+                    <NavDropdown.Item href="/profile">Editar Perfil</NavDropdown.Item>
+                    </NavDropdown>
+                    <Button id="btnEntrar" variant="light" href="/login">LogIn</Button>
+                    <Button id="btnRegistrar" variant="outline-light" href="/register">SignIn</Button>
+                    <Button id="btnCerrarSesion" onClick={SignOut} variant="outline-light">SignOut</Button>
+                </Container>                
             </Navbar>
-            <Navbar style={navStyle2} className="navbar-expand-lg container-fluid" >
-                <div className="btn-group me-12 col-12" role="group" aria-label="Second group">
-                    <button type="button" className="btn btn-primary" 
-                    style={btnStyle}><a href="/" style={{textDecoration:'none'}}>Home</a></button>
-                    <button type="button" className="btn btn-primary"
-                    style={btnStyle}><a href="/Perfil">Perfil</a></button>
-                    <button type="button" className="btn btn-primary" 
-                    style={btnStyle}><a href="/Building">Build PC</a></button>
-                    <button type="button" className="btn btn-primary" 
-                    style={btnStyle}><a href="/Login">Login/Register</a></button>
-                </div>
+            <Navbar className="navbar-expand-lg container-fluid " variant='dark' expand="lg">
+                <Container>
+                    <div className="btn-group me-12 col-12">
+                        <Button className="NavbarBtn" href="/search/CABINET">Gabinete</Button>
+                        <Button className="NavbarBtn" href="/search/GRAPHICCARD">Tarjeta Grafica</Button>
+                        <Button className="NavbarBtn" href="/search/MOTHERBOARD">MotherBoard</Button>
+                        <Button className="NavbarBtn" href="/search/POWERSUPPLY">Fuente Poder</Button>
+                        <Button className="NavbarBtn" href="/search/PROCESSOR">Procesador</Button>
+                        <Button className="NavbarBtn" href="/search/STORAGE">Almacenamiento</Button>
+                        <Button className="NavbarBtn" href="/search/RAM">RAM</Button>
+                        <Button id="btnBuilding" className="NavbarBtn" href="/build">Build</Button>
+                    </div>
+                </Container>
+                
             </Navbar>
         </div>
     )
 }
+export default NavBar;
