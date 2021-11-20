@@ -37,4 +37,4 @@ Dentro de esta carpeta estara todo lo relacionado con el Front-end (Public, src 
 
 -src : Dentro de esta carpeta se encuentra otra llamada components, la cual contiene todos los componentes que seran utilizados en las ventanas para nuestra pagina web (NavBar, Home, Login, Register, Search, Cart, etc). Asi mismo, tambien se realizo modificaciones en el archivo de App.js, agregando las rutas para el redireccionamiento para la navegacion entre ellas.
 ### Html
-En esta carpeta estan los documentos html del primer prototivo de la pagina (mockups)
+En esta carpeta estan los documentos html del primer prototivo de la pagina (mockups).
