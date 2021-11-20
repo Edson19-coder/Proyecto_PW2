@@ -11,12 +11,8 @@ const ProductItem = (props) => {
 
     const [product, setProduct] = useState([]);
     useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedUser');
-        if(loggedUserJSON) {
-            var loggedUser = JSON.parse(loggedUserJSON);
-        }
 
-        getProductById(productId, loggedUser.token).then(res => {
+        getProductById(productId).then(res => {
             if(res != undefined) {
                 setProduct(res);
             }

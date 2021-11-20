@@ -62,6 +62,8 @@ const NavBar = ( props ) => {
             botoncito2.style.display = "none";
             botoncito3 = document.getElementById("btnCerrarSesion");
             botoncito3.style.display = "none";
+            var botoncito4 = document.getElementById("btnBuilding");
+            botoncito4.style.display = "none";
         }
         console.log(loggedUser);
     }, []);
@@ -118,7 +120,7 @@ const NavBar = ( props ) => {
                         <Button className="NavbarBtn" href="/search/PROCESSOR">Procesador</Button>
                         <Button className="NavbarBtn" href="/search/STORAGE">Almacenamiento</Button>
                         <Button className="NavbarBtn" href="/search/RAM">RAM</Button>
-                        <Button className="NavbarBtn" href="/build">Build</Button>
+                        <Button id="btnBuilding" className="NavbarBtn" href="/build">Build</Button>
                     </div>
                 </Container>
                 

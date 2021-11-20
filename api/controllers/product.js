@@ -353,7 +353,7 @@ function getSearchCategory(req, res) {
           page = req.params.page;
         }
 
-        var itemsPerPage = 5;
+        var itemsPerPage = 6;
         Cabinet.find()
           .sort("_id")
           .paginate(page, itemsPerPage, (err, cabinet, total) => {
@@ -541,7 +541,7 @@ function getSearchWord(req, res) {
     word = req.params.word;
   }
 
-  var itemsPerPage = 5;
+  var itemsPerPage = 6;
 
   Product.find({ name: {$regex: word} })
     .sort("_id")

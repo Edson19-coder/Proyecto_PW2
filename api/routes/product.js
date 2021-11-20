@@ -19,7 +19,7 @@ api.get('/getProductsIndex/:page?', ProductController.getProductsIndex);
 api.get('/getProductsCarrousel/:page?', ProductController.getProductsIndex);
 api.get('/getSearchCategory/:categorie?/:page?', ProductController.getSearchCategory);
 api.get('/getSearchWord/:word?/:page?', ProductController.getSearchWord);
-api.get('/getProductById/:productId?', md_auth.ensureAuth, ProductController.getProductById);
+api.get('/getProductById/:productId?', ProductController.getProductById);
 
 
 module.exports = api;
