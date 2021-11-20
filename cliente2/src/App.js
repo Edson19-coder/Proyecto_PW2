@@ -44,7 +44,7 @@ function App() {
         <Route exact path="/profile" component={profile} />
         <Route exact path="/cart" component={cart} />
         <Route exact path="/CreateProduct" component={CreateProduct} />
-        <Route exact path="/productItem/:id" component={productItem} />
+        <Route exact path="/productItem/:productId" component={productItem} />
         <Route exact path="/build" component={build} />
         <Route exact path="/dashboard" component={dashboard} />
         <Route exact path="/history" component={history} />

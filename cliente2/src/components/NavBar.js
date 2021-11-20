@@ -6,6 +6,16 @@ import { MdSearch } from 'react-icons/md';
 import { GLOBAL } from "../api/GLOBAL";
 
 
+
+const loggedUserJSON = window.localStorage.getItem('loggedUser');
+
+var imageUser = "defaul.jpg";
+
+if(loggedUserJSON != undefined) {
+    var loggedUser = JSON.parse(loggedUserJSON);
+    imageUser = loggedUser.image;
+}
+
 const SignOut = async () => {
     window.localStorage.removeItem('loggedUser');
     window.location = "/index";
@@ -26,7 +36,8 @@ const NavBar = ( props ) => {
             var botoncito;
             var botoncito2;
             var botoncito3;
-            setproduct2(loggedUser);
+
+
             if(loggedUser.role === "ADMINISTRADOR"){
                 botoncito = document.getElementById("btnEntrar");
                 botoncito.style.display = "none";
@@ -64,9 +75,9 @@ const NavBar = ( props ) => {
                     <NavDropdown
                      title={
                                  <img
-                                //  src={`${GLOBAL.url}/get-image-prod/${loggedUser.image}`}
-                                 src="https://images.creativemarket.com/0.1.0/ps/1441527/1160/772/m1/fpnw/wm0/businessman-avatar-icon-01-.jpg?1468234792&s=e3a468692e15e93a2056bd848193e97a"
+                                 src={`${GLOBAL.url}/get-image-user/${imageUser}`}
                                  alt="Responsive Circle Image"
+                                 id="pic1"
                                  style={{width:'30px', height:'30px'}}
                                  className="d-inline-block align-text-top rounded-circle nav-item"
                                />
@@ -82,7 +93,7 @@ const NavBar = ( props ) => {
                      title={
                                  <img
                                 //  src={`${GLOBAL.url}/get-image-prod/${loggedUser.image}`}
-                                 src="https://images.creativemarket.com/0.1.0/ps/1441527/1160/772/m1/fpnw/wm0/businessman-avatar-icon-01-.jpg?1468234792&s=e3a468692e15e93a2056bd848193e97a"
+                                src={`${GLOBAL.url}/get-image-user/${imageUser}`}
                                  alt="Responsive Circle Image"
                                  style={{width:'30px', height:'30px'}}
                                  className="d-inline-block align-text-top rounded-circle nav-item"

@@ -542,7 +542,8 @@ function getSearchWord(req, res) {
   }
 
   var itemsPerPage = 5;
-  Product.find({ name: '%'+word+'%' })
+
+  Product.find({ name: {$regex: word} })
     .sort("_id")
     .paginate(page, itemsPerPage, (err, products, total) => {
       if (err) return res.status(500).send({ message: "Error en la peticio" });

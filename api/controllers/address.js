@@ -53,10 +53,8 @@ function createAddress(req, res) {
 
 function deleteAddress(req, res) {
 
-    var params = req.params;
-
-    if(params.addressId) {
-        Address.findById(params.addressId).remove(err => {
+    if(req.user.sub) {
+        Address.find({userId: req.user.sub}).remove(err => {
             if(err) {
                 console.log(err);
                 return res.status(500).send({message: 'Error al borrar la dirección.'});
@@ -71,14 +69,23 @@ function deleteAddress(req, res) {
 
 }
 
-function updateDefaul(req, res) {
+function updateAddress(req, res) {
 
-    var params = req.params;
+    var params = req.body;
 
-    if(params.addressId) {
+    if(params.calle && params.numExt && params.colonia && params.codPostal) {
+
+        var updateAddress = Address();
+        updateAddress.calle = params.calle;
+        updateAddress.numExt = params.numExt;
+        updateAddress.colonia = params.colonia;
+        updateAddress.codPostal = params.codPostal;
+        updateAddress.userId = req.user.sub;
+        updateAddress.default = true;
+
         Address.findOneAndUpdate(
             {$and: [ {userId: req.user.sub}, {default: true} ] },
-            {$set: {default: false}},
+            {$set: updateAddress},
             (err, result) => {
                 
                 if(err) {
@@ -92,28 +99,7 @@ function updateDefaul(req, res) {
                 } 
 
                 console.log(result);
-
-
-                Address.findByIdAndUpdate(
-                    params.addressId,
-                    {$set: {default: true}},
-                    (err, addressUpdate) => {
-
-                        if(err) {
-                            console.log(err);
-                            return res.status(500).send({message: 'Error al actualizar los datos del nuevo default.'})
-                        }
-        
-                        if(!addressUpdate) {
-                            console.log('No se ha podido actualizar los datos del nuevo default.')
-                            return res.status(404).send({ message: "No se ha podido actualizar los datos del nuevo default." });
-                        }
-
-                        console.log(addressUpdate);
-                        return res.status(200).send({ addressUpdate: addressUpdate });
-                    }
-                );
-
+                return res.status(200).send({ addressUpdate: result });
 
             }
         );
@@ -124,7 +110,7 @@ function updateDefaul(req, res) {
     }
 }
 
-function getAllAddressByUserId(req, res) {
+function getAddressByUserId(req, res) {
 
     if(req.user.sub) {
         
@@ -141,7 +127,7 @@ function getAllAddressByUserId(req, res) {
             }
     
             console.log(addresses);
-            return res.status(200).send({ addresses: addresses });
+            return res.status(200).send( addresses );
 
         }); 
 
@@ -155,6 +141,6 @@ function getAllAddressByUserId(req, res) {
 module.exports = {
     createAddress,
     deleteAddress,
-    updateDefaul,
-    getAllAddressByUserId
+    updateAddress,
+    getAddressByUserId
 };

@@ -115,7 +115,7 @@ const Index = (props) => {
                 <h4 id="title">Lo mas popular</h4><label id="label">Determinado por los usuarios de List Factory</label>
                 <CardGroup> 
                     {products.map((item) => (
-                        <CardItem key={item._id} id={item.productId} price={item.cost} name={item.name} description={item.description} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
+                        <CardItem key={item._id} id={item._id} price={item.cost} name={item.name} description={item.description} img={`${GLOBAL.url}/get-image-prod/${item.image}`} ></CardItem>
                     ))}
                 </CardGroup>
                 <PaginacionNosotros totalPages={totalPages} function={changePage}></PaginacionNosotros>

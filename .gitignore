@@ -4,3 +4,4 @@ api/uploads/users/*
 #Not these
 !api/uploads/products/.gitkeep
 !api/uploads/users/.gitkeep
+!api/uploads/users/default.jpg

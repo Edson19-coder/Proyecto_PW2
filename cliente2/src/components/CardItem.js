@@ -14,7 +14,7 @@ const CardItem = (props) => {
                 <Card.Body>
                     <Card.Img className="cardImg" variant="top" src={props.img} />
                     <hr/>
-                    <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text>
+                    <Card.Text>{props.description}</Card.Text>
                     <center><Button className="cardBtn" href={hrefLink}>Detalles</Button></center>
                 </Card.Body>
             </Card> 

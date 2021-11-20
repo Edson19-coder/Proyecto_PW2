@@ -3,7 +3,8 @@ import Card from 'react-bootstrap/Card'
 import { Button } from "react-bootstrap";
 
 const CardSearch = (props) => {
-    const [isClick, setClick] = useState(false);
+    let hrefLink = '/productItem/'+props.id;
+    
     return (
         <div>
             <Card className="mb-10 cardSearch">
@@ -15,13 +16,9 @@ const CardSearch = (props) => {
                     <Card.Body>
                         <Card.Title ><span>{props.name}</span><span style={{float: 'right'}}>{props.price}$</span></Card.Title>
                         <hr/>
-                        <Card.Text>Gaming enthusiasts are always looking for more performance to
-                        get the ultimate experience. Using multiple graphics cards in
-                        SLI or Crossfire is a great way to find out just how good it
-                        gets. MSI GAMING graphics cards fully support multi GPU
-                        technologies.</Card.Text>
+                        <Card.Text>{props.description}</Card.Text>
                         <Card.Body>
-                          <center><Button className="cardBtn">Detalles</Button></center>
+                          <center><Button className="cardBtn" href={hrefLink}>Detalles</Button></center>
                         </Card.Body>
                     </Card.Body>
                     </div>

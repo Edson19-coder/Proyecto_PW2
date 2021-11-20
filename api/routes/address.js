@@ -7,8 +7,8 @@ var api = express.Router();
 var md_auth = require('../middlewares/authenticated');
 
 api.post('/createAddress', md_auth.ensureAuth, AddressController.createAddress);
-api.delete('/deleteAddress/:addressId', md_auth.ensureAuth, AddressController.deleteAddress);
-api.put('/updateDefaultAddress/:addressId', md_auth.ensureAuth, AddressController.updateDefaul);
-api.get('/addresses', md_auth.ensureAuth, AddressController.getAllAddressByUserId);
+api.delete('/deleteAddress', md_auth.ensureAuth, AddressController.deleteAddress);
+api.put('/updateAddress', md_auth.ensureAuth, AddressController.updateAddress);
+api.get('/address', md_auth.ensureAuth, AddressController.getAddressByUserId);
 
 module.exports = api;

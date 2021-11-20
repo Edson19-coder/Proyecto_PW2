@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Container, Button, Card } from "react-bootstrap";
 import InputGroup from 'react-bootstrap/InputGroup'
+import { useParams } from "react-router-dom";
+import { getProductById, getProductByIdAndCategory } from "../api/ProductAPI";
+import { GLOBAL } from "../api/GLOBAL";
 
+const ProductItem = (props) => {
+    let { productId } = useParams();
 
-const productItem = (props) => {
+    const [product, setProduct] = useState([]);
+    useEffect(() => {
+        const loggedUserJSON = window.localStorage.getItem('loggedUser');
+        if(loggedUserJSON) {
+            var loggedUser = JSON.parse(loggedUserJSON);
+        }
+
+        getProductById(productId, loggedUser.token).then(res => {
+            if(res != undefined) {
+                setProduct(res);
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }, [])
+
     return (
         <Fragment>
             <Container  className="container-fluid align-items-center">
@@ -14,30 +34,20 @@ const productItem = (props) => {
                     <div className="col-8">
                     <br/>
                     <img
-                    src="https://cdn.vox-cdn.com/thumbor/2QvgYM5Z2w02Qb-bdauWMIAqmyk=/0x0:1200x800/1200x800/filters:focal(504x304:696x496)/cdn.vox-cdn.com/uploads/chorus_image/image/49907377/gtx-1080-msi.0.jpg"
+                    src={`${GLOBAL.url}/get-image-prod/${product.image}`}
                     className="img-fluid rounded-start col-10"
                     alt="..."
                     />
                     </div>
                     <div className="col-4">
                         <br/>
-                        <Card.Title><span style={{float: 'left'}}>GTX 1080</span><span style={{float: 'right'}}>3000$</span></Card.Title>
+                        <Card.Title><span style={{float: 'left'}}>{product.name}</span><span style={{float: 'right'}}>${product.cost}</span></Card.Title>
                         <br/>
-                        <Card.Text>Gaming enthusiasts are always looking for more performance to
-                            get the ultimate experience. Using multiple graphics cards in
-                            SLI or Crossfire is a great way to find out just how good it
-                            gets. MSI GAMING graphics cards fully support multi GPU
-                            technologies.
-                        </Card.Text>
-                        <hr/>
                         <Card.Title><span>Detalles</span></Card.Title>
-                        <Card.Text>Gaming enthusiasts are always looking for more performance to
-                            get the ultimate experience. Using multiple graphics cards in
-                            SLI or Crossfire is a great way to find out just how good it
-                            gets. MSI GAMING graphics cards fully support multi GPU
-                            technologies.
+                        <Card.Text>
+                            {product.description}
                         </Card.Text>
-                        
+                        <Card.Title><span>Categoria: {product.categorie}</span></Card.Title>
                     </div>
 
                 </div>
@@ -46,4 +56,4 @@ const productItem = (props) => {
         </Fragment>
     );
 }
-export default productItem;
+export default ProductItem;
